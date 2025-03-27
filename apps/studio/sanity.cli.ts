@@ -10,8 +10,6 @@ export default defineCliConfig({
     dataset: dataset,
   },
   studioHost:
-    host && host !== "main"
-      ? `${host}-turbo-start-sanity`
-      : "turbo-start-sanity",
+    host && host !== "main" ? `${host}-e-waste-pickup` : "e-waste-pickup",
   autoUpdates: false,
 });
