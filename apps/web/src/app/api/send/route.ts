@@ -3,6 +3,7 @@ import { Resend } from "resend";
 
 import { EmailTemplate } from "../../../components/email-template";
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST() {
