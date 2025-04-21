@@ -14,6 +14,8 @@ import { HeroBlock } from "./sections/hero";
 import { ImageLinkCards } from "./sections/image-link-cards";
 import { SubscribeNewsletter } from "./sections/subscribe-newsletter";
 
+import { RequestPickupEmail } from "./emails/request-pickup";
+
 type PageBlock = NonNullable<
   NonNullable<QueryHomePageDataResult>["pageBuilder"]
 >[number];
@@ -69,6 +71,9 @@ export function PageBuilder({
         path: "pageBuilder",
       }).toString()}
     >
+      <div>
+        <RequestPickupEmail />
+      </div>
       {pageBuilder.map((block) => {
         const Component = BLOCK_COMPONENTS[block._type] as ComponentType<
           PagebuilderType<BlockType>

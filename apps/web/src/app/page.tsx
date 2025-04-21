@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { PageBuilder } from "@/components/pagebuilder";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryHomePageData } from "@/lib/sanity/query";
