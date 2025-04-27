@@ -49,97 +49,63 @@ import {
     inviteFromIp,
     inviteFromLocation,
   }: RequestPickupEmailProps) => {
-    const previewText = `Join ${invitedByUsername} on Vercel`;
+    const previewText = `Invite ${invitedByUsername} to come and pick up your e-waste!`;
   
     return (
       <Html>
         <Head />
         <Tailwind>
-          <Body className="bg-white my-auto mx-auto font-sans px-2">
-            <Preview>{previewText}</Preview>
-            <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
-              <Section className="mt-[32px]">
+          <Body className="my-auto mx-auto font-sans px-2">
+            <Container className="mx-auto p-[20px] max-w-[465px]">
+            <Preview className="text-center">{previewText}</Preview>
+              <Section className="mt-[8px]">
                 <Img
-                  src={`/vercel-logo.png`}
-                  width="40"
-                  height="37"
+                  src={`/e-waste-pickup-logo.png`}
+                  width="160"
+                  height="55"
                   alt="E-waste Pickup Logo"
                   className="my-0 mx-auto"
                 />
               </Section>
-              <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+              {/* <Heading className="text-[24px] font-normal text-center p-0 my-[30px] mx-0">
                 Join <strong>{teamName}</strong> on <strong>Vercel</strong>
-              </Heading>
-              <Text className="text-black text-[14px] leading-[24px]">
-                Hello {username},
+              </Heading> */}
+              <Text className="text-[14px] leading-[24px]">
+                {/* Hello {username}, */}
+                Hello,
               </Text>
-              <Text className="text-black text-[14px] leading-[24px]">
-                <strong>{invitedByUsername}</strong> (
+              <Text className="text-[14px] leading-[24px]">
+                {/* <strong>{invitedByUsername}</strong> */}
+                Simply send us your email address and we will send you a pickup
+                request for your e-waste. We will pick up your e-waste at a time
+                that is convenient for you. 
+                Lookout for an email from us (<strong>{invitedByEmail}</strong>) to confirm your pickup request.
                 <Link
                   href={`mailto:${invitedByEmail}`}
                   className="text-blue-600 no-underline"
                 >
                   {/* {invitedByEmail} */}
-                  Brett
                 </Link>
-                ) has invited you to the <strong>{teamName}</strong> team on{' '}
-                <strong>Vercel</strong>.
+                  {/* &nbsp;has invited you to the <strong>{teamName}</strong> team on{' '}
+                <strong>Vercel</strong>. */}
               </Text>
-              <Section>
-                <Row>
-                  <Column align="right">
-                    <Img
-                      className="rounded-full"
-                    //   src={userImage}
-                      src={`/vercel-user.png`}
-                      width="64"
-                      height="64"
-                      alt={`${username}'s profile picture`}
-                    />
-                  </Column>
-                  <Column align="center">
-                    <Img
-                      src={`/vercel-arrow.png`}
-                      width="12"
-                      height="9"
-                      alt="Arrow indicating invitation"
-                    />
-                  </Column>
-                  <Column align="left">
-                    <Img
-                      className="rounded-full"
-                    //   src={teamImage}
-                      src={`/vercel-team.png`}
-                      width="64"
-                      height="64"
-                      alt={`${teamName} team logo`}
-                    />
-                  </Column>
-                </Row>
-              </Section>
               <Section className="text-center mt-[32px] mb-[32px]">
                 <Button
-                  className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
+                  className="bg-[#000000] rounded text-[12px] font-semibold no-underline text-center px-5 py-3"
                   href={inviteLink}
                 >
                   Join the team
                 </Button>
               </Section>
-              <Text className="text-black text-[14px] leading-[24px]">
-                or copy and paste this URL into your browser:{' '}
-                <Link href={inviteLink} className="text-blue-600 no-underline">
-                  {inviteLink}
-                </Link>
-              </Text>
               <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
               <Text className="text-[#666666] text-[12px] leading-[24px]">
                 This invitation was intended for{' '}
-                <span className="text-black">{username}</span>. This invite was
-                sent from <span className="text-black">{inviteFromIp}</span>{' '}
+                <span className="">{username}</span>. This invite was
+                sent from <span className="">{inviteFromIp}</span>{' '}
                 located in{' '}
-                <span className="text-black">{inviteFromLocation}</span>. If you
+                <span className="">{inviteFromLocation}</span>. If you
                 were not expecting this invitation, you can ignore this email. If
-                you are concerned about your account's safety, please reply to
+                you are concerned about your account&apos;s safety, please reply to
                 this email to get in touch with us.
               </Text>
             </Container>

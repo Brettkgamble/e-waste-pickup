@@ -72,7 +72,10 @@ export function PageBuilder({
       }).toString()}
     >
       <div>
-        <RequestPickupEmail />
+        <RequestPickupEmail
+          invitedByUsername="Brett"
+          invitedByEmail="admin@e-waste-pickup.ca"
+        />
       </div>
       {pageBuilder.map((block) => {
         const Component = BLOCK_COMPONENTS[block._type] as ComponentType<
