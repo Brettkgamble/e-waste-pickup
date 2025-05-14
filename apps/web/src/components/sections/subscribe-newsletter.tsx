@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { Button } from "@workspace/ui/components/button";
 import { ChevronRight, LoaderCircle } from "lucide-react";
 import Form from "next/form";

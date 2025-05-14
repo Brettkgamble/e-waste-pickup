@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { defineQuery } from "next-sanity";
 
 // Base fragments for reusable query parts
