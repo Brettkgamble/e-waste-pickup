@@ -2,6 +2,8 @@ import type { SlugifierFn } from "sanity";
 import {
   defineField,
   type FieldDefinition,
+  getDraftId,
+  getPublishedId,
   type SlugValidationContext,
 } from "sanity";
 import slugify from "slugify";
@@ -34,16 +36,16 @@ export async function isUnique(
   context: SlugValidationContext,
 ): Promise<boolean> {
   const { document, getClient } = context;
-  const client = getClient({ apiVersion: "2023-06-21" });
-  const id = document?._id.replace(/^drafts\./, "");
+  const client = getClient({ apiVersion: "2025-02-10" });
+  const id = getPublishedId(document?._id ?? "");
+  const draftId = getDraftId(id);
   const params = {
-    draft: `drafts.${id}`,
+    draft: draftId,
     published: id,
     slug,
   };
   const query = "*[!(_id in [$draft, $published]) && slug.current == $slug]";
   const result = await client.fetch(query, params);
-  console.log("🚀 ~ isUnique:", result);
   return result.length === 0;
 }
 

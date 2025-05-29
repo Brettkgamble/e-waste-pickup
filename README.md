@@ -73,7 +73,18 @@ Your content should now appear in your Next.js app ([http://localhost:3000](http
 
 When you initialize the template using the Sanity CLI, sample content is automatically imported into your project. This includes example blog posts, authors, and other content types to help you get started quickly.
 
-#### 3. Extending the Sanity schema
+#### 3. Seed data using script
+
+To add sample data programmatically, run the following command:
+
+```shell
+cd apps/studio
+sanity exec scripts/create-data.ts --with-user-token
+```
+
+This command executes a TypeScript script that creates and populates content in your Sanity dataset.
+
+#### 4. Extending the Sanity schema
 
 The schemas for all document types are defined in the `studio/schemaTypes/documents` directory. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
 
@@ -112,6 +123,6 @@ You have the freedom to deploy your Next.js app to your hosting provider of choi
 
 #### 3. Invite a collaborator
 
-Now that you’ve deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
+Now that you've deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
 
 They will be able to access the deployed Studio, where you can collaborate together on creating content.

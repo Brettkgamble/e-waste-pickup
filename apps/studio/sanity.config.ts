@@ -28,6 +28,9 @@ export default defineConfig({
   projectId: projectId,
   icon: Logo,
   dataset: dataset ?? "production",
+  mediaLibrary: {
+    enabled: true,
+  },
   plugins: [
     presentationTool({
       resolve: {
@@ -53,13 +56,13 @@ export default defineConfig({
 
   form: {
     image: {
-      assetSources: (previousAssetSources) => {
-        return previousAssetSources.filter(
-          (assetSource) =>
-            assetSource === mediaAssetSource ||
-            assetSource === unsplashAssetSource,
-        );
-      },
+      assetSources: (sources) =>
+        sources.filter((source) => source.name !== "sanity-default"),
+    },
+    // Disable the default for file assets
+    file: {
+      assetSources: (sources) =>
+        sources.filter((source) => source.name !== "sanity-default"),
     },
   },
   document: {
