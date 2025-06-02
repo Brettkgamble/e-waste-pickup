@@ -54,9 +54,13 @@ function EmailTemplate() {
             </Text>
             <Text className="text-[14px] leading-[24px]">
               {/* <strong>{invitedByUsername}</strong> */}
-              Simply send us your email address and we will reach out by email
-              to arrange a pickup of your e-waste. We will pick up your e-waste
-              at a time that is convenient for you.
+              We have received your e-mail and contact number and will be in
+              contact shortly to arrange a pickup of your electronics.
+            </Text>
+            <Text className="text-[14px] leading-[24px]">
+              We can also pickup electronics from your neighbors and friends
+              while we are in the area and can also arrange for junk removal via
+              our preferred supplier.
             </Text>
             <Text className="text-[14px] leading-[24px]">
               Stay on the lookout for an email from us (
@@ -97,11 +101,14 @@ function EmailTemplate() {
 
 export async function newsletterSubmission(formData: FormData) {
   const email = formData.get("email");
+  if (typeof email !== "string" || !email) {
+    throw new Error("Invalid email address");
+  }
   console.log("🚀 ~ newsletterSubmission ~ email:", email);
   await resend.emails.send({
-    from: "admin <admin@e-waste-pickup.ca>",
-    to: ["admin@e-waste-pickup.ca"],
-    subject: "Let us pickup your e-waste!",
+    from: "E Waste Pickup <admin@e-waste-pickup.ca>",
+    to: ["admin@e-waste-pickup.ca", email],
+    subject: "Let us pickup your old electronics!",
     // html: "<p>it works!</p>",
     react: EmailTemplate(),
     // react: EmailTemplate({ firstName: "Brett!!" }) as React.ReactElement,
