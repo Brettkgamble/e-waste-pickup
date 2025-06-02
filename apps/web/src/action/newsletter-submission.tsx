@@ -1,7 +1,7 @@
 "use server";
-
 import * as React from "react";
 import { Resend } from "resend";
+
 
 import {
   Body,
@@ -21,6 +21,9 @@ import {
   Text,
 } from "@react-email/components";
 
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "https://localhost:3000";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -35,10 +38,10 @@ function EmailTemplate() {
       <Tailwind>
         <Body className="my-auto mx-auto font-sans px-2">
           <Container className="mx-auto p-[20px] max-w-[465px]">
-            <Preview className="text-center">{previewText}</Preview>
+            {/* <Preview className="text-center">{previewText}</Preview> */}
             <Section className="mt-[8px]">
               <Img
-                src={`e-waste-pickup-logo.png`}
+                src={`${baseUrl}/static/e-waste-pickup-logo.png`}
                 width="160"
                 height="55"
                 alt="E-waste Pickup Logo"
