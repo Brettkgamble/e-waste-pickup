@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ export function Logo({
   alt = "logo",
   image,
   width = 170,
-  height = 40,
+  height = 45,
   priority = true,
 }: LogoProps) {
   return (
