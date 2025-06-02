@@ -73,15 +73,26 @@ export function SubscribeNewsletter({
             className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-2"
             action={newsletterSubmission}
           >
-            <div className="flex bg-white dark:bg-zinc-200 items-center border rounded-xl p-2 drop-shadow-lg md:w-96 justify-between pl-4">
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="Enter your email address"
-                className="rounded-e-none border-e-0 focus-visible:ring-0 outline-none bg-transparent w-full dark:text-zinc-900 dark:placeholder:text-zinc-900"
-              />
-              <SubscribeNewsletterButton />
+            <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex bg-white dark:bg-zinc-200 items-center border rounded-xl p-2 drop-shadow-lg w-full md:w-96 justify-between pl-4">
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Enter your email address"
+                  className="rounded-e-none border-e-0 focus-visible:ring-0 outline-none bg-transparent w-full dark:text-zinc-900 dark:placeholder:text-zinc-900"
+                />
+              </div>
+              <div className="flex bg-white dark:bg-zinc-200 items-center border rounded-xl p-2 drop-shadow-lg w-full md:w-96 justify-between pl-4">
+                <input
+                  type="text"
+                  name="contactNumber"
+                  required
+                  placeholder="Enter your contact number"
+                  className="rounded-e-none border-e-0 focus-visible:ring-0 outline-none bg-transparent w-full dark:text-zinc-900 dark:placeholder:text-zinc-900"
+                />
+                <SubscribeNewsletterButton />
+              </div>
             </div>
           </Form>
           {helperText && (
