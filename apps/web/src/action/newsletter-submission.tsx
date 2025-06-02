@@ -31,9 +31,9 @@ function EmailTemplate() {
           <Container className="mx-auto p-[20px] max-w-[465px]">
             <Section className="mt-[8px]">
               <Img
-                src="https://res.cloudinary.com/dblps0yur/image/upload/v1748902275/logo_Green_on_trans_1250_260_nwldyq.png"
-                width="265"
-                height="52"
+                src="https://res.cloudinary.com/dblps0yur/image/upload/v1748905865/logo_bright_Green_on_trans_170_53_centered_cfivva.png"
+                width="350"
+                height="115"
                 alt="E-waste Pickup Logo"
                 className="my-0 mx-auto"
               />

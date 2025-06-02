@@ -22,8 +22,8 @@ export function Logo({
   src,
   alt = "logo",
   image,
-  width = 170,
-  height = 45,
+  width = 175,
+  height = 50,
   priority = true,
 }: LogoProps) {
   return (
