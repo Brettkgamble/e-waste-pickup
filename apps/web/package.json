@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-email/components": "^0.0.36",
+    "@react-email/img": "0.0.11",
     "@sanity/asset-utils": "^2.2.1",
     "@sanity/client": "^6.28.4",
     "@sanity/image-url": "^1.1.0",
