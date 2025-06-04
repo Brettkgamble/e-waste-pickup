@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // "use client";
 import { Button } from "@workspace/ui/components/button";
 import { ChevronRight, LoaderCircle } from "lucide-react";
@@ -8,18 +9,6 @@ import { newsletterSubmission } from "@/action/newsletter-submission";
 import type { PagebuilderType } from "@/types";
 
 import { RichText } from "../richtext";
-
-import Image from 'next/image'
-
-// const InteractiveGridPattern = dynamic(
-//   () =>
-//     import("@workspace/ui/components/interactive-grid-pattern").then(
-//       (mod) => mod.InteractiveGridPattern,
-//     ),
-//   {
-//     ssr: false,
-//   },
-// );
 
 type SubscribeNewsletterProps = PagebuilderType<"subscribeNewsletter">;
 export default function SubscribeNewsletterButton() {
@@ -71,12 +60,6 @@ export function SubscribeNewsletter({
               className="mb-6 text-sm text-gray-600 sm:mb-8 text-balance sm:text-base dark:text-neutral-300"
             />
           )}
-          {/* <Image
-            src="/e-waste-pickup-logo.png"
-            width={500}
-            height={500}
-            alt="Picture of the author"
-          /> */}
           <Form
             className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-2"
             action={newsletterSubmission}

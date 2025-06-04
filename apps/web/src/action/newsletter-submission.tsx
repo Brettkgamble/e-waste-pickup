@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 "use server";
 import * as React from "react";
 import { Resend } from "resend";
@@ -67,6 +68,8 @@ function EmailTemplate() {
 
 export async function newsletterSubmission(formData: FormData) {
   const email = formData.get("email");
+  const contactNumber = formData.get("contactNumber");
+
   if (typeof email !== "string" || !email) {
     throw new Error("Invalid email address");
   }
