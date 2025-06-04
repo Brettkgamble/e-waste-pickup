@@ -20,6 +20,16 @@ import { Img } from "@react-email/img";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+import { z } from 'zod';
+
+const contactSchema = z.object({
+  email: z.string().email('Invalid email address').regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Email must be a valid format"),
+  contactNumber: z.string().min(10, 'Format xxxxxxxxxx').max(10, 'Message must not exceed 1000 characters'),
+})
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
+
 const invitedByUsername = "Brett from e-waste-pickup";
 const invitedByEmail = "admin@e-waste-pickup.ca";
 
@@ -67,6 +77,12 @@ function EmailTemplate() {
 }
 
 export async function newsletterSubmission(formData: FormData) {
+// new
+
+
+
+
+// Everything below here works
   const email = formData.get("email");
   const contactNumber = formData.get("contactNumber");
 
