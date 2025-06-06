@@ -77,12 +77,6 @@ function EmailTemplate() {
 }
 
 export async function newsletterSubmission(formData: FormData) {
-// new
-
-
-
-
-// Everything below here works
   const email = formData.get("email");
   const contactNumber = formData.get("contactNumber");
 
