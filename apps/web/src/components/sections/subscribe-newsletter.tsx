@@ -11,6 +11,8 @@ import { z } from "zod";
 
 import { FormDataSchema } from '../../lib/schemas/schema';
 
+import { newsletterSubmission } from "../../action/newsletter-submission"
+
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export function SubscribeNewsletter() {
@@ -28,9 +30,21 @@ export function SubscribeNewsletter() {
 
   // console.log(watch('name'));
 
-  const processForm: SubmitHandler<Inputs> = data => {
+  const processForm: SubmitHandler<Inputs> = async data => {
+    const result = await newsletterSubmission(data);
+
+    if (!result) {
+      console.log('Something went wrong');
+      return
+    }
+
+    if (result.error) {
+      console.log(result.error);
+      return
+    }
+    
     reset();
-    setData(data);
+    setData(result.data);
   }
 
     return (

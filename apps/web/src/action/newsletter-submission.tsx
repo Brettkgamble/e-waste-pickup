@@ -3,6 +3,9 @@
 import * as React from "react";
 import { Resend } from "resend";
 
+import { z } from "zod";
+import { FormDataSchema } from "@/lib/schemas/schema";
+
 
 import {
   Body,
@@ -19,8 +22,6 @@ import {
 import { Img } from "@react-email/img";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-import { z } from 'zod';
 
 const contactSchema = z.object({
   email: z.string().email('Invalid email address').regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Email must be a valid format"),
@@ -76,18 +77,33 @@ function EmailTemplate() {
   );
 }
 
-export async function newsletterSubmission(formData: FormData) {
-  const email = formData.get("email");
-  const contactNumber = formData.get("contactNumber");
 
-  if (typeof email !== "string" || !email) {
-    throw new Error("Invalid email address");
+type Inputs = z.infer<typeof FormDataSchema>
+export async function newsletterSubmission(data: Inputs) {
+  const result = FormDataSchema.safeParse(data)
+
+  if (result.success) {
+    return { success: true, data: result.data}
   }
-  console.log("🚀 ~ newsletterSubmission ~ email:", email);
-  await resend.emails.send({
-    from: "E Waste Pickup <admin@e-waste-pickup.ca>",
-    to: ["admin@e-waste-pickup.ca", email],
-    subject: "Let us pickup your old electronics!",
-    react: EmailTemplate(),
-  });
+
+  if (result.error) {
+    return { success: false, error: result.error.format()}
+  }
 }
+
+
+// export async function newsletterSubmission(formData: FormData) {
+//   const email = formData.get("email");
+//   const contactNumber = formData.get("contactNumber");
+
+//   if (typeof email !== "string" || !email) {
+//     throw new Error("Invalid email address");
+//   }
+//   console.log("🚀 ~ newsletterSubmission ~ email:", email);
+//   await resend.emails.send({
+//     from: "E Waste Pickup <admin@e-waste-pickup.ca>",
+//     to: ["admin@e-waste-pickup.ca", email],
+//     subject: "Let us pickup your old electronics!",
+//     react: EmailTemplate(),
+//   });
+// }
