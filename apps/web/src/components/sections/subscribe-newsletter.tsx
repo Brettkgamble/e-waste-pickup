@@ -6,29 +6,49 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-type Inputs = {
-  name: string,
-  message: string
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+import { FormDataSchema } from '../../lib/schemas/schema';
+
+// type Inputs = {
+//   name: string,
+//   message: string
+// }
+
+type Inputs = z.infer<typeof FormDataSchema>;
 
 export function SubscribeNewsletter() {
   const [data, setData] = useState<Inputs>();
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm<Inputs>({
+  //   defaultValues: {
+  //     name: "",
+  //     message: "",
+  //   },
+  // });
 
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({
-    defaultValues: {
-      name: "",
-      message: "",
-    },
+      resolver: zodResolver(FormDataSchema)
   });
 
   // console.log(watch('name'));
 
-  const processForm: SubmitHandler<Inputs> = data => setData(data);
+  const processForm: SubmitHandler<Inputs> = data => {
+    reset();
+    setData(data);
+  }
 
     return (
           <section className="flex gap-6">
@@ -37,7 +57,7 @@ export function SubscribeNewsletter() {
               className="flex flex-1 flex-col gap-4 sm:w-1/2"
             >
               <input className="rounded-lg" placeholder='name' 
-                  {...register('name', { required: 'Name is required' })} 
+                  {...register('name')}
               />
               { errors.name?.message && (
                 <p className="text-red-500">{ errors.name.message }</p>
@@ -46,13 +66,7 @@ export function SubscribeNewsletter() {
               <input 
                 className="rounded-lg"
                 placeholder="message"
-                {...register('message', {
-                  required: 'Message is required',
-                  minLength: {
-                    value: 4,
-                    message: 'Message must be at least 4 characters long',
-                  },
-                })}
+                {...register('message')}
               />
               {errors.message?.message && (
                 <p className="text-red-500">{errors.message.message}</p>
