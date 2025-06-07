@@ -11,27 +11,10 @@ import { z } from "zod";
 
 import { FormDataSchema } from '../../lib/schemas/schema';
 
-// type Inputs = {
-//   name: string,
-//   message: string
-// }
-
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export function SubscribeNewsletter() {
   const [data, setData] = useState<Inputs>();
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm<Inputs>({
-  //   defaultValues: {
-  //     name: "",
-  //     message: "",
-  //   },
-  // });
 
   const {
     register,
