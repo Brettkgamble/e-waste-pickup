@@ -3,19 +3,27 @@
 // at 13:40 start of zod
 "use client";
 
-import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useState } from 'react';
+import type { SubmitHandler} from 'react-hook-form';
+import {useForm } from 'react-hook-form';
+import type { z } from "zod";
+import type { PagebuilderType } from "@/types";
 
-import { FormDataSchema } from '../../lib/schemas/schema';
+import { Button } from "@workspace/ui/components/button";
+
 
 import { newsletterSubmission } from "../../action/newsletter-submission"
+import { FormDataSchema } from '../../lib/schemas/schema';
 
 type Inputs = z.infer<typeof FormDataSchema>;
+type SubscribeNewsletterProps = PagebuilderType<"subscribeNewsletter">;
 
-export function SubscribeNewsletter() {
+export function SubscribeNewsletter({
+  title,
+  subTitle,
+  helperText,
+}: SubscribeNewsletterProps) {
   const [data, setData] = useState<Inputs>();
 
   const {
@@ -53,21 +61,41 @@ export function SubscribeNewsletter() {
               onSubmit={handleSubmit(processForm)}
               className="flex flex-1 flex-col gap-4 sm:w-1/2"
             >
-              <input className="rounded-lg" placeholder='name' 
+              {/* <input className="rounded-lg" placeholder='name' 
                   {...register('name')}
               />
               { errors.name?.message && (
                 <p className="text-red-500">{ errors.name.message }</p>
+              )} */}
+
+              
+
+              <input 
+                className="rounded-lg"
+                placeholder="email"
+                {...register('email')}
+              />
+              {errors.email?.message && (
+                <p className="text-red-500">{errors.email.message}</p>
               )}
 
               <input 
+                className="rounded-lg"
+                placeholder="phone"
+                {...register('phone')}
+              />
+              {errors.phone?.message && (
+                <p className="text-red-500">{errors.phone.message}</p>
+              )}
+
+              {/* <input 
                 className="rounded-lg"
                 placeholder="message"
                 {...register('message')}
               />
               {errors.message?.message && (
                 <p className="text-red-500">{errors.message.message}</p>
-              )}
+              )} */}
 
               <button className="rounded-lg bg-black py-3 text-white">Submit</button>
             </form>
@@ -81,71 +109,6 @@ export function SubscribeNewsletter() {
         ); 
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  The following creates a simple form with a submit button and a response area.
-// import { FormEvent, useState } from 'react';
-
-// export function SubscribeNewsletter() {
-//   const [data, setData ] = useState();
-
-//   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-
-//     const form = event.currentTarget;
-//     const formData = new FormData(form);
-//     const formDataObject = Object.fromEntries(formData);
-
-//     const data = await fetch('/api/form', {
-//       method:'POST',
-//       body: JSON.stringify(formDataObject),
-//     }).then(res=>res.json())
-
-//     setData(data);
-//     form.reset();
-//   }
-//   return (
-//     <section className="flex gap-6">
-//       <form 
-//         onSubmit={handleSubmit}
-//         className="flex flex-1 flex-col gap-4 sm:w-1/2"
-//       >
-//         <input className="rounded-lg" name='name' placeholder='name' required />
-//         <input 
-//           className="rounded-lg"
-//           name="message"
-//           placeholder="message"
-//           required
-//         />
-//         <button className="rounded-lg bg-black py-3 text-white">Submit</button>
-//       </form>
-
-//       <div className='flex-1 rounded-lg bg-cyan-600 p-8 text-white'>
-//         <pre>{JSON.stringify(data, null, 2)}</pre>
-
-//       </div>
-
-//     </section>
-//   );
-
-// }
-
-
-
 
 
 /* eslint-disable prettier/prettier */

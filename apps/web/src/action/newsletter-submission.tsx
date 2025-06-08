@@ -1,12 +1,5 @@
 /* eslint-disable prettier/prettier */
 "use server";
-import * as React from "react";
-import { Resend } from "resend";
-
-import { z } from "zod";
-import { FormDataSchema } from "@/lib/schemas/schema";
-
-
 import {
   Body,
   Container,
@@ -18,17 +11,14 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-
 import { Img } from "@react-email/img";
+import * as React from "react";
+import { Resend } from "resend";
+import type { z } from "zod";
+
+import { FormDataSchema } from "@/lib/schemas/schema";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-const contactSchema = z.object({
-  email: z.string().email('Invalid email address').regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "Email must be a valid format"),
-  contactNumber: z.string().min(10, 'Format xxxxxxxxxx').max(10, 'Message must not exceed 1000 characters'),
-})
-
-type ContactFormData = z.infer<typeof contactSchema>;
 
 
 const invitedByUsername = "Brett from e-waste-pickup";
