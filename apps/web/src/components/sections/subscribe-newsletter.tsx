@@ -11,7 +11,8 @@ import type { z } from "zod";
 import type { PagebuilderType } from "@/types";
 
 import { Button } from "@workspace/ui/components/button";
-
+import { ChevronRight, LoaderCircle } from "lucide-react";
+import { RichText } from "../richtext";
 
 import { newsletterSubmission } from "../../action/newsletter-submission"
 import { FormDataSchema } from '../../lib/schemas/schema';
@@ -25,6 +26,8 @@ export function SubscribeNewsletter({
   helperText,
 }: SubscribeNewsletterProps) {
   const [data, setData] = useState<Inputs>();
+  const [pending, setPending] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const {
     register,
@@ -39,6 +42,8 @@ export function SubscribeNewsletter({
   // console.log(watch('name'));
 
   const processForm: SubmitHandler<Inputs> = async data => {
+    setPending(true);
+    setShowMessage(false);
     const result = await newsletterSubmission(data);
 
     if (!result) {
@@ -52,62 +57,95 @@ export function SubscribeNewsletter({
     }
     
     reset();
+    setPending(false);
+    setShowMessage(true);
     setData(result.data);
   }
 
     return (
-          <section className="flex gap-6">
-            <form 
-              onSubmit={handleSubmit(processForm)}
-              className="flex flex-1 flex-col gap-4 sm:w-1/2"
-            >
-              {/* <input className="rounded-lg" placeholder='name' 
-                  {...register('name')}
-              />
-              { errors.name?.message && (
-                <p className="text-red-500">{ errors.name.message }</p>
-              )} */}
-
-              
-
+      <section id="subscribe" className="px-4 py-8 sm:py-12 md:py-16">
+        <div className="relative container mx-auto px-4 md:px-8 py-8 sm:py-16 md:py-24 lg:py-32 bg-gray-50 dark:bg-zinc-900 rounded-3xl overflow-hidden">
+          <div className="relative z-10 mx-auto text-center">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-neutral-300 sm:text-3xl md:text-5xl text-balance">
+              {title}
+            </h2>
+            {subTitle && (
+             <RichText
+               richText={subTitle}
+               className="mb-6 text-sm text-gray-600 sm:mb-8 text-balance sm:text-base dark:text-neutral-300"
+             />
+           )}
+          <form 
+            onSubmit={handleSubmit(processForm)}
+            // className="flex flex-1 flex-col gap-4 sm:w-1/2"
+            className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-2"
+          >
+          <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex bg-white dark:bg-zinc-200 items-center border rounded-xl p-2 drop-shadow-lg w-full md:w-96 justify-between pl-4">
               <input 
-                className="rounded-lg"
+                className="rounded-e-none border-e-0 focus-visible:ring-0 outline-none bg-transparent w-full dark:text-zinc-900 dark:placeholder:text-zinc-900"
                 placeholder="email"
                 {...register('email')}
               />
               {errors.email?.message && (
                 <p className="text-red-500">{errors.email.message}</p>
               )}
-
+            </div>
+            <div className="flex bg-white dark:bg-zinc-200 items-center border rounded-xl p-2 drop-shadow-lg w-full md:w-96 justify-between pl-4">
               <input 
-                className="rounded-lg"
+                className="rounded-e-none border-e-0 focus-visible:ring-0 outline-none bg-transparent w-full dark:text-zinc-900 dark:placeholder:text-zinc-900"
                 placeholder="phone"
                 {...register('phone')}
               />
               {errors.phone?.message && (
                 <p className="text-red-500">{errors.phone.message}</p>
               )}
-
-              {/* <input 
-                className="rounded-lg"
-                placeholder="message"
-                {...register('message')}
-              />
-              {errors.message?.message && (
-                <p className="text-red-500">{errors.message.message}</p>
-              )} */}
-
-              <button className="rounded-lg bg-black py-3 text-white">Submit</button>
-            </form>
-      
-            <div className='flex-1 rounded-lg bg-cyan-600 p-8 text-white'>
-              <pre>{JSON.stringify(data, null, 2)}</pre>
-      
             </div>
-      
-          </section>
-        ); 
-  
+          </div>
+            <Button
+              size="icon"
+              type="submit"
+              disabled={pending}
+              className="size-8 aspect-square bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+              aria-label={pending ? "Subscribing..." : "Subscribe to newsletter"}
+            >
+              <span className="flex items-center justify-center gap-2">
+                {pending ? (
+                  <LoaderCircle
+                    className="animate-spin text-black"
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <ChevronRight
+                    className="text-black dark:text-neutral-300"
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                )}
+              </span>
+            </Button>
+          </form>
+          { showMessage ? (
+            <div 
+                className="mt-3 text-sm text-gray-800 opacity-80 sm:mt-4 dark:text-neutral-300"
+            > 
+              {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+              <h2 className="mb-4 text-lg font-semibold text-white dark:text-white sm:text-3xl md:text-3xl text-balance">
+                Thank-you! we will be in touch soon
+              </h2>
+            </div>
+          )
+        :
+          <div></div>
+        }
+          
+        </div>
+      </div>
+    </section>
+  ); 
 }
 
 

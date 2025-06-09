@@ -20,7 +20,6 @@ import { FormDataSchema } from "@/lib/schemas/schema";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-
 const invitedByUsername = "Brett from e-waste-pickup";
 const invitedByEmail = "admin@e-waste-pickup.ca";
 
@@ -70,30 +69,21 @@ function EmailTemplate() {
 
 type Inputs = z.infer<typeof FormDataSchema>
 export async function newsletterSubmission(data: Inputs) {
-  const result = FormDataSchema.safeParse(data)
+  const result = FormDataSchema.safeParse(data);
 
   if (result.success) {
+    await resend.emails.send({
+     from: "E Waste Pickup <admin@e-waste-pickup.ca>",
+     to: ["admin@e-waste-pickup.ca", result.data.email],
+     subject: "Let us pickup your old electronics!",
+     react: EmailTemplate(),
+   });
+    
     return { success: true, data: result.data}
+
   }
 
   if (result.error) {
     return { success: false, error: result.error.format()}
   }
 }
-
-
-// export async function newsletterSubmission(formData: FormData) {
-//   const email = formData.get("email");
-//   const contactNumber = formData.get("contactNumber");
-
-//   if (typeof email !== "string" || !email) {
-//     throw new Error("Invalid email address");
-//   }
-//   console.log("🚀 ~ newsletterSubmission ~ email:", email);
-//   await resend.emails.send({
-//     from: "E Waste Pickup <admin@e-waste-pickup.ca>",
-//     to: ["admin@e-waste-pickup.ca", email],
-//     subject: "Let us pickup your old electronics!",
-//     react: EmailTemplate(),
-//   });
-// }
