@@ -20,7 +20,6 @@ import { FormDataSchema } from "@/lib/schemas/schema";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const invitedByUsername = "Brett from e-waste-pickup";
 const invitedByEmail = "admin@e-waste-pickup.ca";
 
 function EmailTemplate(_email: string, _number: string) {
