@@ -23,7 +23,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const invitedByUsername = "Brett from e-waste-pickup";
 const invitedByEmail = "admin@e-waste-pickup.ca";
 
-function EmailTemplate() {
+function EmailTemplate(_email: string, _number: string) {
   return (
     <Html>
       <Head />
@@ -41,7 +41,7 @@ function EmailTemplate() {
             </Section>
             <Text className="text-[14px] leading-[24px]">Hello,</Text>
             <Text className="text-[14px] leading-[24px]">
-              We have received your e-mail and contact number and will be in
+              We have received your e-mail ({_email}) and contact number ({_number}) and will be in
               contact shortly to arrange a pickup of your electronics.
             </Text>
             <Text className="text-[14px] leading-[24px]">
@@ -76,7 +76,7 @@ export async function newsletterSubmission(data: Inputs) {
      from: "E Waste Pickup <admin@e-waste-pickup.ca>",
      to: ["admin@e-waste-pickup.ca", result.data.email],
      subject: "Let us pickup your old electronics!",
-     react: EmailTemplate(),
+     react: EmailTemplate(result.data.email, result.data.phone),
    });
     
     return { success: true, data: result.data}
