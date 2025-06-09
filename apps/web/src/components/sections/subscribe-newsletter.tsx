@@ -133,7 +133,7 @@ export function SubscribeNewsletter({
                 className="mt-3 text-sm text-gray-800 opacity-80 sm:mt-4 dark:text-neutral-300"
             > 
               {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-              <h2 className="mb-4 text-lg font-semibold text-white dark:text-white sm:text-3xl md:text-3xl text-balance">
+              <h2 className="mb-4 text-lg font-semibold text-black dark:text-white sm:text-3xl md:text-3xl text-balance">
                 Thank-you! we will be in touch soon
               </h2>
             </div>
