@@ -4,14 +4,15 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryHomePageData } from "@/lib/sanity/query";
 import { getMetaData } from "@/lib/seo";
 
-async function fetchHomePageData() {
+async function fetchHomePageData(stega = true) {
   return await sanityFetch({
     query: queryHomePageData,
+    stega,
   });
 }
 
 export async function generateMetadata() {
-  const homePageData = await fetchHomePageData();
+  const homePageData = await fetchHomePageData(false);
   return await getMetaData(homePageData?.data ?? {});
 }
 

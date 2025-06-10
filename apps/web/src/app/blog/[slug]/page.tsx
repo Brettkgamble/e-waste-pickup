@@ -9,10 +9,11 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogPaths, queryBlogSlugPageData } from "@/lib/sanity/query";
 import { getMetaData } from "@/lib/seo";
 
-async function fetchBlogSlugPageData(slug: string) {
+async function fetchBlogSlugPageData(slug: string, stega = true) {
   return await sanityFetch({
     query: queryBlogSlugPageData,
     params: { slug: `/blog/${slug}` },
+    stega,
   });
 }
 
@@ -33,7 +34,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data } = await fetchBlogSlugPageData(slug);
+  const { data } = await fetchBlogSlugPageData(slug, false);
   return await getMetaData(data ?? {});
 }
 
