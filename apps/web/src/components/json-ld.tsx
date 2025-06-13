@@ -100,7 +100,7 @@ export function FaqJsonLd({ faqs }: FaqJsonLdProps) {
   return <JsonLdScript data={faqJsonLd} id="faq-json-ld" />;
 }
 
-function buildSafeImageUrl(image?: { asset?: { _ref: string } }) {
+function buildSafeImageUrl(image?: { asset?: { _ref: string } } | null) {
   if (!image?.asset?._ref) {
     return undefined;
   }
@@ -190,7 +190,7 @@ export function OrganizationJsonLd({ settings }: OrganizationJsonLdProps) {
   const organizationJsonLd: WithContext<Organization> = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: settings.siteTitle,
+    name: settings.siteTitle || undefined,
     description: settings.siteDescription || undefined,
     url: baseUrl,
     logo: settings.logo
@@ -225,7 +225,7 @@ export function WebSiteJsonLd({ settings }: WebSiteJsonLdProps) {
   const websiteJsonLd: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: settings.siteTitle,
+    name: settings.siteTitle || undefined,
     description: settings.siteDescription || undefined,
     url: baseUrl,
     publisher: {
