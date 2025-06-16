@@ -48,7 +48,7 @@ function SocialLinks({ data }: SocialLinksProps) {
     {
       url: instagram,
       Icon: InstagramIcon,
-      label: "Follow us on Instagram",
+      label: "Follow us on Instagram.",
     },
     { url: facebook, Icon: FacebookIcon, label: "Follow us on Facebook" },
     { url: twitter, Icon: XIcon, label: "Follow us on Twitter" },
