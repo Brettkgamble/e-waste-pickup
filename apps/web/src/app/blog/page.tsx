@@ -21,7 +21,7 @@ export async function generateMetadata() {
       ? {
           title: result?.title ?? result?.seoTitle ?? "",
           description: result?.description ?? result?.seoDescription ?? "",
-          slug: result?.slug,
+          slug: result?.slug ?? undefined,
           contentId: result?._id,
           contentType: result?._type,
         }

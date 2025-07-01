@@ -41,7 +41,7 @@ export async function generateMetadata({
       ? {
           title: data?.title ?? data?.seoTitle ?? "",
           description: data?.description ?? data?.seoDescription ?? "",
-          slug: data?.slug,
+          slug: data?.slug ?? undefined,
           contentId: data?._id,
           contentType: data?._type,
           pageType: "article",
