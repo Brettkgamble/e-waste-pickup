@@ -569,6 +569,16 @@ export type Page = {
   ogDescription?: string;
 };
 
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+};
+
 export type Blog = {
   _id: string;
   _type: "blog";
@@ -579,6 +589,13 @@ export type Blog = {
   title: string;
   description?: string;
   slug: Slug;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
   authors: Array<{
     _ref: string;
     _type: "reference";
@@ -934,6 +951,7 @@ export type AllSanitySchemaTypes =
   | Author
   | Faq
   | Page
+  | Category
   | Blog
   | CustomUrl
   | MediaTag
@@ -2473,6 +2491,13 @@ export type QueryBlogSlugPageDataResult = {
   title: string;
   description?: string;
   slug: string;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
   authors: {
     _id: string;
     name: string;
@@ -2664,6 +2689,17 @@ export type QueryGenericPageOGDataResult =
       image: null;
       dominantColor: null;
       seoImage: string | null;
+      logo: string | null;
+      date: string;
+    }
+  | {
+      _id: string;
+      _type: "category";
+      title: null;
+      description: null;
+      image: null;
+      dominantColor: null;
+      seoImage: null;
       logo: string | null;
       date: string;
     }
