@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import {
   BookMarked,
@@ -109,6 +110,19 @@ export const structure = (
       createSingleTon({ S, type: "homePage", icon: HomeIcon }),
       S.divider(),
       createList({ S, type: "page", title: "Pages" }),
+      createList({ S, type: "category", title: "Categories" }),
+      S.listItem()
+        .title('Blogs By Category')
+        .child(
+          S.documentTypeList('category')
+            .title('Posts by Category')
+            .child(categoryId =>
+              S.documentList()
+                .title('Posts')
+                .filter('_type == "post" && $categoryId in categories[]._ref')
+                .params({ categoryId })
+            ),
+          ),
       createIndexListWithOrderableItems({
         S,
         index: { type: "blogIndex", icon: BookMarked },
