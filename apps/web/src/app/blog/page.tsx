@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { notFound } from "next/navigation";
 
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
+import { BlogCategoryList } from "@/components/blog-category-list";
 import { PageBuilder } from "@/components/pagebuilder";
-import { sanityFetch } from "@/lib/sanity/live";
-import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
+import { queryBlogIndexPageData } from "@/lib/sanity/query";
+import { sanityFetch } from "@/lib/sanity/live";
 import { handleErrors } from "@/utils";
 
 async function fetchBlogPosts() {
@@ -74,6 +76,18 @@ export default async function BlogIndexPage() {
     ? blogs.slice(validFeaturedBlogsCount)
     : blogs;
 
+    // Ensure categories is never null and name/slug are non-null strings
+  const normalizedBlogs = blogs.map((blog) => ({
+    ...blog,
+    categories: (blog.categories ?? []).filter(
+      (cat) => cat && cat.name && cat.slug
+    ).map((cat) => ({
+      ...cat,
+      name: cat.name ?? "",
+      slug: cat.slug ?? "",
+    })),
+  }));
+
   return (
     <main className="bg-background">
       <div className="container my-16 mx-auto px-4 md:px-6">
@@ -95,6 +109,11 @@ export default async function BlogIndexPage() {
           </div>
         )}
       </div>
+        <BlogCategoryList 
+          blogs={normalizedBlogs}
+          title="Browse by Category"
+          description="Explore our blog posts organized by topic"
+        />
 
       {pageBuilder && pageBuilder.length > 0 && (
         <PageBuilder pageBuilder={pageBuilder} id={_id} type={_type} />

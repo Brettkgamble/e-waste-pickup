@@ -57,7 +57,12 @@ const blogCardFragment = /* groq */ `
   orderRank,
   ${imageFragment},
   publishedAt,
-  ${blogAuthorFragment}
+  ${blogAuthorFragment},
+  "categories": categories[]->{
+    _id,
+    name,
+    "slug": slug.current
+  }
 `;
 
 const buttonsFragment = /* groq */ `
