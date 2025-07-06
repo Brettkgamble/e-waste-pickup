@@ -119,7 +119,7 @@ export const structure = (
             .child(categoryId =>
               S.documentList()
                 .title('Posts')
-                .filter('_type == "post" && $categoryId in categories[]._ref')
+                .filter('_type == "blog" && $categoryId in categories[]._ref')
                 .params({ categoryId })
             ),
           ),
