@@ -108,13 +108,12 @@ export default async function BlogIndexPage() {
             ))}
           </div>
         )}
-      </div>
         <BlogCategoryList 
           blogs={normalizedBlogs}
           title="Browse by Category"
           description="Explore our blog posts organized by topic"
         />
-
+      </div>
       {pageBuilder && pageBuilder.length > 0 && (
         <PageBuilder pageBuilder={pageBuilder} id={_id} type={_type} />
       )}

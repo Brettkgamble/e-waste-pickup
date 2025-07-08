@@ -41,15 +41,6 @@ export default async function BlogCategoriesPage() {
   return (
     <main className="bg-background">
       <div className="container my-16 mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold sm:text-4xl mb-4">
-            Blog Categories
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Explore our blog posts organized by topic
-          </p>
-        </div>
-
         <BlogCategoryList 
           blogs={normalizedBlogs}
           title="Browse by Category"
