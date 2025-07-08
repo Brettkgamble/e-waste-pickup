@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Link from "next/link";
 
 import { sanityFetch } from "@/lib/sanity/live";
@@ -196,11 +197,11 @@ function Footer({ data, settingsData }: FooterProps) {
               </p>
               <ul className="flex justify-center gap-4 lg:justify-start">
                 <li className="hover:text-primary">
-                  <Link href="/terms">Terms and Conditions</Link>
+                  <Link href="/blog/terms-and-conditions">Terms, Conditions and Privacy</Link>
                 </li>
-                <li className="hover:text-primary">
+                {/* <li className="hover:text-primary">
                   <Link href="/privacy">Privacy Policy</Link>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>

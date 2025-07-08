@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 "use client";
 import { useOptimistic } from "@sanity/visual-editing/react";
 import { createDataAttribute, type SanityDocument } from "next-sanity";
