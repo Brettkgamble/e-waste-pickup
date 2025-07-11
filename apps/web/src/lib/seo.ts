@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import type { Metadata } from "next";
 
 import type { Maybe } from "@/types";
@@ -33,10 +34,11 @@ interface OgImageParams {
 
 // Default site configuration
 const siteConfig: SiteConfig = {
-  title: "Roboto Studio Demo",
-  description: "Roboto Studio Demo",
-  twitterHandle: "@studioroboto",
-  keywords: ["roboto", "studio", "demo", "sanity", "next", "react", "template"],
+  title: "E-Waste Pickup Edmonton | Free Electronics Recycling & Gold Recovery",
+  description: "Free electronics recycling in Edmonton. Specialists in e-waste pickup, gold recovery from electronics, & secure data destruction. Fast, local, and sustainable.",
+  twitterHandle: "@ewastepickupca",
+  keywords: ["e-waste pickup Edmonton", "free electronics pickup Edmonton", "electronics recycling Edmonton", 
+    "gold recovery from electronics", "secure electronics disposal Edmonton", "sustainable e-waste solutions", "e-waste-pickup.ca"],
 };
 
 function generateOgImageUrl(params: OgImageParams = {}): string {
@@ -134,7 +136,7 @@ export function getSEOMetadata(page: PageSeoData = {}): Metadata {
     },
     openGraph: {
       type: pageType ?? "website",
-      countryName: "UK",
+      countryName: "Canada",
       description: defaultDescription,
       title: defaultTitle,
       images: [
