@@ -391,3 +391,57 @@ export const querySettingsData = defineQuery(`
     "contactEmail": contactEmail,
   }
 `);
+
+export const CATEGORIES_QUERY = defineQuery(`*[
+  _type == "category"
+]{
+  _id,
+  name,
+  slug,
+  description,
+  "postCount": count(*[_type == "blog" && references(^._id)])
+}`);
+
+export const BLOGS_BY_CATEGORY_QUERY = defineQuery(`*[
+  _type == "blog" &&
+  references($categoryId)
+] | order(publishedAt desc){
+  _type,
+  _id,
+  title,
+  description,
+  "slug": slug.current,
+  richText,
+  orderRank,
+  image{
+    ...,
+    ...asset->{
+      "alt": coalesce(altText, originalFilename, "no-alt"),
+      "blurData": metadata.lqip,
+      "dominantColor": metadata.palette.dominant.background
+    }
+  },
+  publishedAt,
+  authors[]->{
+    _id,
+    name,
+    position,
+    image {
+      asset {
+        _ref,
+        _type,
+        _weak
+      },
+      media,
+      hotspot,
+      crop,
+      _type
+    }
+  },
+  categories[]->{
+    _id,
+    name,
+    slug
+  }
+}
+`);

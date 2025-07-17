@@ -121,7 +121,11 @@ export function BlogCategoryList({ blogs, title, description }: BlogCategoryList
                     ) : (
                       <ChevronRightIcon className="h-5 w-5 text-muted-foreground" />
                     )}
-                    <h3 className="text-lg font-semibold">{category.name}</h3>
+                    <h3 className="text-lg font-semibold">
+                      <Link href={`/blog/categories/${category.slug}`} className="hover:underline">
+                        {category.name}
+                      </Link>
+                    </h3>
                     <span className="text-sm text-muted-foreground bg-background px-2 py-1 rounded-full">
                       {blogCount} {blogCount === 1 ? 'post' : 'posts'}
                     </span>
