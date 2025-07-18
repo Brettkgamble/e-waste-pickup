@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
+
+import { BlogCard } from "@/components/blog-card";
 import { sanityFetch } from "@/lib/sanity/live";
 import { BLOGS_BY_CATEGORY_QUERY, CATEGORIES_QUERY } from "@/lib/sanity/query";
-import { BlogCard } from "@/components/blog-card";
 import type { Blog, Category } from "@/lib/sanity/sanity.types";
 
 export default async function CategoryDetailPage(props: any) {

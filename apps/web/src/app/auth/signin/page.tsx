@@ -1,10 +1,11 @@
 // https://www.youtube.com/watch?v=n-fVrzaikBQ
 "use server";
 
+import Link from "next/link";
+
 import { auth } from "@/auth";
 import { SignInButton } from "@/components/ui/sign-in-button";
 import { SignOutButton } from "@/components/ui/sign-out-button";
-import Link from "next/link";
 
 export default async function Page() {
   const session = await auth();

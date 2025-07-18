@@ -7,14 +7,13 @@ import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import type { PagebuilderType } from "@/types";
+import { ChevronRight, LoaderCircle } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
-import { ChevronRight, LoaderCircle } from "lucide-react";
-import { RichText } from "../richtext";
-
 import { newsletterSubmission } from "../../action/newsletter-submission";
 import { FormDataSchema } from "../../lib/schemas/schema";
+import { RichText } from "../richtext";
+import type { PagebuilderType } from "@/types";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 type SubscribeNewsletterProps = PagebuilderType<"subscribeNewsletter">;

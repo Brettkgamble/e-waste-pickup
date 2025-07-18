@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 
-import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
 import { BlogCard } from "./blog-card";
+import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
 
 type Blog = NonNullable<
   NonNullable<QueryBlogIndexPageDataResult>["blogs"]

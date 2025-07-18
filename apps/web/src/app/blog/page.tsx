@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { BlogCategoryList } from "@/components/blog-category-list";
 import { PageBuilder } from "@/components/pagebuilder";
-import { getSEOMetadata } from "@/lib/seo";
-import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { sanityFetch } from "@/lib/sanity/live";
+import { queryBlogIndexPageData } from "@/lib/sanity/query";
+import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
 
 async function fetchBlogPosts() {
