@@ -76,16 +76,16 @@ export default async function BlogIndexPage() {
     ? blogs.slice(validFeaturedBlogsCount)
     : blogs;
 
-    // Ensure categories is never null and name/slug are non-null strings
+  // Ensure categories is never null and name/slug are non-null strings
   const normalizedBlogs = blogs.map((blog) => ({
     ...blog,
-    categories: (blog.categories ?? []).filter(
-      (cat) => cat && cat.name && cat.slug
-    ).map((cat) => ({
-      ...cat,
-      name: cat.name ?? "",
-      slug: cat.slug ?? "",
-    })),
+    categories: (blog.categories ?? [])
+      .filter((cat) => cat && cat.name && cat.slug)
+      .map((cat) => ({
+        ...cat,
+        name: cat.name ?? "",
+        slug: cat.slug ?? "",
+      })),
   }));
 
   return (
@@ -107,7 +107,7 @@ export default async function BlogIndexPage() {
             ))}
           </div>
         )}
-        <BlogCategoryList 
+        <BlogCategoryList
           blogs={normalizedBlogs}
           title="Browse by Category"
           description="Explore our blog posts organized by topic"

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { notFound } from "next/navigation";
 
 import { PageBuilder } from "@/components/pagebuilder";

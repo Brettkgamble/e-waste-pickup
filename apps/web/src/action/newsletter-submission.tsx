@@ -40,8 +40,9 @@ function EmailTemplate(_email: string, _number: string) {
             </Section>
             <Text className="text-[14px] leading-[24px]">Hello,</Text>
             <Text className="text-[14px] leading-[24px]">
-              We have received your e-mail ({_email}) and contact number ({_number}) and will be in
-              contact shortly to arrange a pickup of your electronics.
+              We have received your e-mail ({_email}) and contact number (
+              {_number}) and will be in contact shortly to arrange a pickup of
+              your electronics.
             </Text>
             <Text className="text-[14px] leading-[24px]">
               We can also pickup electronics from your neighbors and friends
@@ -65,24 +66,22 @@ function EmailTemplate(_email: string, _number: string) {
   );
 }
 
-
-type Inputs = z.infer<typeof FormDataSchema>
+type Inputs = z.infer<typeof FormDataSchema>;
 export async function newsletterSubmission(data: Inputs) {
   const result = FormDataSchema.safeParse(data);
 
   if (result.success) {
     await resend.emails.send({
-     from: "E Waste Pickup <admin@e-waste-pickup.ca>",
-     to: ["admin@e-waste-pickup.ca", result.data.email],
-     subject: "Let us pickup your old electronics!",
-     react: EmailTemplate(result.data.email, result.data.phone),
-   });
-    
-    return { success: true, data: result.data}
+      from: "E Waste Pickup <admin@e-waste-pickup.ca>",
+      to: ["admin@e-waste-pickup.ca", result.data.email],
+      subject: "Let us pickup your old electronics!",
+      react: EmailTemplate(result.data.email, result.data.phone),
+    });
 
+    return { success: true, data: result.data };
   }
 
   if (result.error) {
-    return { success: false, error: result.error.format()}
+    return { success: false, error: result.error.format() };
   }
 }
