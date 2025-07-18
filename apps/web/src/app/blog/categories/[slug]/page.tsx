@@ -39,7 +39,7 @@ export default async function CategoryDetailPage(props: any) {
             <BlogCard key={blog._id} blog={{
               ...blog,
               description: blog.description ?? null,
-              slug: typeof blog.slug === 'object' ? blog.slug.current : blog.slug,
+              slug: typeof blog.slug === 'object' ? blog.slug?.current ?? '' : blog.slug ?? '',
               richText: blog.richText ?? null,
               orderRank: blog.orderRank ?? null,
               publishedAt: blog.publishedAt ?? null,

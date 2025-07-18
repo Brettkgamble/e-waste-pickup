@@ -17,13 +17,18 @@ function BlogImage({ image, title }: BlogImageProps) {
   if (!image?.asset) return null;
 
   return (
-    <SanityImage
-      asset={image}
-      width={800}
-      height={400}
-      alt={title ?? "Blog post image"}
-      className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-    />
+    <div className="relative w-full aspect-[16/9] rounded-2xl bg-gray-100 overflow-hidden">
+      <SanityImage
+        asset={image}
+        alt={title ?? "Blog post image"}
+        fill
+        priority={false}
+        loading="lazy"
+        quality={80}
+        objectFit="cover"
+        className="rounded-2xl"
+      />
+    </div>
   );
 }
 
