@@ -78,10 +78,10 @@ export const blog = defineType({
       ],
     }),
     defineField({
-      name: 'categories',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'category'}]}],
-   }),
+      name: "categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+    }),
     defineField({
       name: "authors",
       type: "array",

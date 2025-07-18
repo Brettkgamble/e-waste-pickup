@@ -112,17 +112,17 @@ export const structure = (
       createList({ S, type: "page", title: "Pages" }),
       createList({ S, type: "category", title: "Categories" }),
       S.listItem()
-        .title('Blogs By Category')
+        .title("Blogs By Category")
         .child(
-          S.documentTypeList('category')
-            .title('Posts by Category')
-            .child(categoryId =>
+          S.documentTypeList("category")
+            .title("Posts by Category")
+            .child((categoryId) =>
               S.documentList()
-                .title('Posts')
+                .title("Posts")
                 .filter('_type == "blog" && $categoryId in categories[]._ref')
-                .params({ categoryId })
+                .params({ categoryId }),
             ),
-          ),
+        ),
       createIndexListWithOrderableItems({
         S,
         index: { type: "blogIndex", icon: BookMarked },
