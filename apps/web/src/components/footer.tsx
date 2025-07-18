@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Link from "next/link";
 
 import { sanityFetch } from "@/lib/sanity/live";

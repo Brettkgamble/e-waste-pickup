@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { notFound } from "next/navigation";
 
 import { BlogCategoryList } from "@/components/blog-category-list";

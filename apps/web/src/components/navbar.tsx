@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryGlobalSeoSettings, queryNavbarData } from "@/lib/sanity/query";
 import type {

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import type { Metadata } from "next";
 
 import type { Maybe } from "@/types";

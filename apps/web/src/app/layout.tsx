@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import "@workspace/ui/globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";

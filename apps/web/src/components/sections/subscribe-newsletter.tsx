@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // https://www.youtube.com/watch?v=R_Pj593TH_Q
 // at 13:40 start of zod
 "use client";
