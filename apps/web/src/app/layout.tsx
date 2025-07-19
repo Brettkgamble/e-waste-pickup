@@ -1,5 +1,6 @@
 import "@workspace/ui/globals.css";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Geist, Geist_Mono } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
@@ -45,7 +46,7 @@ export default async function RootLayout({
             <NavbarServer />
           </Suspense>
           {children}
-
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""} />
           <Suspense fallback={<FooterSkeleton />}>
             <FooterServer />
           </Suspense>
