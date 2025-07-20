@@ -1,12 +1,13 @@
 import Link from "next/link";
 
-import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
+import type { Blog } from "@/types/blog";
 
 import { SanityImage } from "./sanity-image";
 
-type Blog = NonNullable<
-  NonNullable<QueryBlogIndexPageDataResult>["blogs"]
->[number];
+// Define BlogAuthor type for convenience
+export type BlogAuthor = Blog["authors"] extends Array<infer T>
+  ? T
+  : { _id: string; name: string; position?: string; image?: any };
 
 interface BlogImageProps {
   image: Blog["image"];
@@ -33,12 +34,11 @@ function BlogImage({ image, title }: BlogImageProps) {
 }
 
 interface AuthorImageProps {
-  author: Blog["authors"];
+  author?: BlogAuthor;
 }
 
 function AuthorImage({ author }: AuthorImageProps) {
   if (!author?.image) return null;
-
   return (
     <SanityImage
       asset={author.image}
@@ -51,12 +51,11 @@ function AuthorImage({ author }: AuthorImageProps) {
 }
 
 interface BlogAuthorProps {
-  author: Blog["authors"];
+  author?: BlogAuthor;
 }
 
 export function BlogAuthor({ author }: BlogAuthorProps) {
   if (!author) return null;
-
   return (
     <div className="flex items-center gap-x-2.5 text-sm/6 font-semibold text-gray-900">
       <AuthorImage author={author} />
@@ -116,17 +115,18 @@ function BlogContent({
   );
 }
 
-function AuthorSection({ authors }: { authors: Blog["authors"] }) {
-  if (!authors) return null;
-
+function AuthorSection({ authors }: { authors?: Blog["authors"] }) {
+  if (!Array.isArray(authors) || authors.length === 0) return null;
+  const author = authors[0];
+  if (!author) return null;
   return (
     <div className="mt-6 flex border-t border-gray-900/5 pt-6">
       <div className="relative flex items-center gap-x-4">
-        <AuthorImage author={authors} />
+        <AuthorImage author={author} />
         <div className="text-sm leading-6">
           <p className="font-semibold">
             <span className="absolute inset-0" />
-            {authors.name}
+            {author.name}
           </p>
         </div>
       </div>
@@ -135,15 +135,16 @@ function AuthorSection({ authors }: { authors: Blog["authors"] }) {
 }
 export function FeaturedBlogCard({ blog }: BlogCardProps) {
   const { title, publishedAt, slug, authors, description, image } = blog ?? {};
-
+  const normalizedPublishedAt = publishedAt ?? null;
+  const normalizedSlug = typeof slug === "object" ? slug.current ?? null : slug ?? null;
   return (
     <article className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
       <BlogImage image={image} title={title} />
       <div className="space-y-6">
-        <BlogMeta publishedAt={publishedAt} />
+        <BlogMeta publishedAt={normalizedPublishedAt} />
         <BlogContent
           title={title}
-          slug={slug}
+          slug={normalizedSlug}
           description={description}
           isFeatured
         />
@@ -168,7 +169,8 @@ export function BlogCard({ blog }: BlogCardProps) {
   }
 
   const { title, publishedAt, slug, authors, description, image } = blog;
-
+  const normalizedPublishedAt = publishedAt ?? null;
+  const normalizedSlug = typeof slug === "object" ? slug.current ?? null : slug ?? null;
   return (
     <article className="grid grid-cols-1 gap-4 w-full">
       <div className="relative w-full h-auto aspect-[16/9] overflow-hidden rounded-2xl">
@@ -176,8 +178,8 @@ export function BlogCard({ blog }: BlogCardProps) {
         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
       </div>
       <div className="w-full space-y-4">
-        <BlogMeta publishedAt={publishedAt} />
-        <BlogContent title={title} slug={slug} description={description} />
+        <BlogMeta publishedAt={normalizedPublishedAt} />
+        <BlogContent title={title} slug={normalizedSlug} description={description} />
         <AuthorSection authors={authors} />
       </div>
     </article>

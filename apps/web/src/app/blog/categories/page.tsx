@@ -5,6 +5,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
+import type { Blog } from "@/types/blog";
 
 async function fetchBlogPosts() {
   return await handleErrors(sanityFetch({ query: queryBlogIndexPageData }));
@@ -22,7 +23,7 @@ export default async function BlogCategoriesPage() {
   const [res, err] = await fetchBlogPosts();
   if (err || !res?.data) notFound();
 
-  const { blogs = [] } = res.data;
+  const { blogs = [] }: { blogs: Blog[] } = res.data;
 
   // Ensure categories is never null and name/slug are non-null strings
   const normalizedBlogs = blogs.map((blog) => ({

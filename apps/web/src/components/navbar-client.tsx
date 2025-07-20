@@ -30,10 +30,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useIsMobile } from "@/hooks/use-is-mobile";
-import type {
-  QueryGlobalSeoSettingsResult,
-  QueryNavbarDataResult,
-} from "@/lib/sanity/sanity.types";
 
 import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
@@ -77,7 +73,7 @@ function MobileNavbarAccordionColumn({
   column,
   setIsOpen,
 }: {
-  column: NonNullable<NonNullable<QueryNavbarDataResult>["columns"]>[number];
+  column: NonNullable<NonNullable<any>["columns"]>[number];
   setIsOpen: (isOpen: boolean) => void;
 }) {
   if (column.type !== "column") return null;
@@ -91,7 +87,7 @@ function MobileNavbarAccordionColumn({
         </div>
       </AccordionTrigger>
       <AccordionContent className="mt-2">
-        {column.links?.map((item) => (
+        {column.links?.map((item: any) => (
           <MenuItemLink
             key={item._key}
             setIsOpen={setIsOpen}
@@ -112,8 +108,8 @@ function MobileNavbar({
   navbarData,
   settingsData,
 }: {
-  navbarData: QueryNavbarDataResult;
-  settingsData: QueryGlobalSeoSettingsResult;
+  navbarData: any;
+  settingsData: any;
 }) {
   const { siteTitle, logo } = settingsData ?? {};
   const { columns, buttons } = navbarData ?? {};
@@ -143,7 +139,7 @@ function MobileNavbar({
         </SheetHeader>
 
         <div className="mb-8 mt-8 flex flex-col gap-4">
-          {columns?.map((item) => {
+          {columns?.map((item: any) => {
             if (item.type === "link") {
               return (
                 <Link
@@ -191,7 +187,7 @@ function NavbarColumnLink({
   column,
 }: {
   column: Extract<
-    NonNullable<NonNullable<QueryNavbarDataResult>["columns"]>[number],
+    NonNullable<NonNullable<any>["columns"]>[number],
     { type: "link" }
   >;
 }) {
@@ -224,7 +220,7 @@ export function NavbarColumn({
   column,
 }: {
   column: Extract<
-    NonNullable<NonNullable<QueryNavbarDataResult>["columns"]>[number],
+    NonNullable<NonNullable<any>["columns"]>[number],
     { type: "column" }
   >;
 }) {
@@ -239,7 +235,7 @@ export function NavbarColumn({
         <NavigationMenuTrigger>{column.title}</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className={cn("p-3", layoutClass)}>
-            {column.links?.map((item) => (
+            {column.links?.map((item: any) => (
               <li key={item._key}>
                 <MenuItemLink
                   item={{
@@ -266,14 +262,14 @@ export function NavbarColumn({
 export function DesktopNavbar({
   navbarData,
 }: {
-  navbarData: QueryNavbarDataResult;
+  navbarData: any;
 }) {
   const { columns, buttons } = navbarData ?? {};
 
   return (
     <div className="grid grid-cols-[1fr_auto] items-center gap-8">
       <NavigationMenu className="">
-        {columns?.map((column) =>
+        {columns?.map((column: any) =>
           column.type === "column" ? (
             <NavbarColumn key={`nav-${column._key}`} column={column} />
           ) : (
@@ -298,8 +294,8 @@ const ClientSideNavbar = ({
   navbarData,
   settingsData,
 }: {
-  navbarData: QueryNavbarDataResult;
-  settingsData: QueryGlobalSeoSettingsResult;
+  navbarData: any;
+  settingsData: any;
 }) => {
   const isMobile = useIsMobile();
 

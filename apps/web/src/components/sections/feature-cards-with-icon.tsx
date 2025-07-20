@@ -50,7 +50,7 @@ export function FeatureCardsWithIcon({
           </div>
         </div>
         <div className="mx-auto mt-20 grid gap-8 lg:grid-cols-3">
-          {cards?.map((card, index) => (
+          {cards?.map((card: any, index: number) => (
             <FeatureCard
               key={`FeatureCard-${card?._key}-${index}`}
               card={card}

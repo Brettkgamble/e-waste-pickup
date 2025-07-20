@@ -8,6 +8,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
+import type { Blog, BlogCategory } from "@/types/blog";
 
 async function fetchBlogPosts() {
   return await handleErrors(sanityFetch({ query: queryBlogIndexPageData }));
@@ -77,11 +78,11 @@ export default async function BlogIndexPage() {
     : blogs;
 
   // Ensure categories is never null and name/slug are non-null strings
-  const normalizedBlogs = blogs.map((blog) => ({
+  const normalizedBlogs = blogs.map((blog: Blog) => ({
     ...blog,
     categories: (blog.categories ?? [])
-      .filter((cat) => cat && cat.name && cat.slug)
-      .map((cat) => ({
+      .filter((cat: BlogCategory) => cat && cat.name && cat.slug)
+      .map((cat: BlogCategory) => ({
         ...cat,
         name: cat.name ?? "",
         slug: cat.slug ?? "",
@@ -94,7 +95,7 @@ export default async function BlogIndexPage() {
         <BlogHeader title={title} description={description} />
         {featuredBlogs.length > 0 && (
           <div className="mx-auto mt-8 sm:mt-12 md:mt-16 mb-12 lg:mb-20 grid grid-cols-1 gap-8 md:gap-12">
-            {featuredBlogs.map((blog) => (
+            {featuredBlogs.map((blog: Blog) => (
               <FeaturedBlogCard key={blog._id} blog={blog} />
             ))}
           </div>
@@ -102,7 +103,7 @@ export default async function BlogIndexPage() {
 
         {remainingBlogs.length > 0 && (
           <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2 mt-8">
-            {remainingBlogs.map((blog) => (
+            {remainingBlogs.map((blog: Blog) => (
               <BlogCard key={blog._id} blog={blog} />
             ))}
           </div>

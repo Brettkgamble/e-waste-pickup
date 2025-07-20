@@ -4,8 +4,6 @@ import { createDataAttribute, type SanityDocument } from "next-sanity";
 import type { ComponentType } from "react";
 
 import { dataset, projectId, studioUrl } from "@/lib/sanity/api";
-import type { QueryHomePageDataResult } from "@/lib/sanity/sanity.types";
-import type { PagebuilderType } from "@/types";
 
 import { CTABlock } from "./sections/cta";
 import { FaqAccordion } from "./sections/faq-accordion";
@@ -14,9 +12,7 @@ import { HeroBlock } from "./sections/hero";
 import { ImageLinkCards } from "./sections/image-link-cards";
 import { SubscribeNewsletter } from "./sections/subscribe-newsletter";
 
-type PageBlock = NonNullable<
-  NonNullable<QueryHomePageDataResult>["pageBuilder"]
->[number];
+type PageBlock = any;
 
 export type PageBuilderProps = {
   pageBuilder: PageBlock[];
@@ -30,7 +26,7 @@ type PageData = {
   pageBuilder?: PageBlock[];
 };
 
-const BLOCK_COMPONENTS = {
+const BLOCK_COMPONENTS: Record<string, ComponentType<any>> = {
   cta: CTABlock,
   faqAccordion: FaqAccordion,
   hero: HeroBlock,
@@ -70,10 +66,8 @@ export function PageBuilder({
         path: "pageBuilder",
       }).toString()}
     >
-      {pageBuilder.map((block) => {
-        const Component = BLOCK_COMPONENTS[block._type] as ComponentType<
-          PagebuilderType<BlockType>
-        >;
+      {pageBuilder.map((block: any) => {
+        const Component = BLOCK_COMPONENTS[block._type] as ComponentType<any>;
 
         if (!Component) {
           return (

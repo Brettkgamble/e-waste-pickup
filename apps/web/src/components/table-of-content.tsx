@@ -195,7 +195,7 @@ function createProcessedHeading(
       return null;
     }
 
-    const level = HEADING_LEVELS[block.style];
+    const level = HEADING_LEVELS[block.style as HeadingStyle];
     const href = `#${createSlug(text)}`;
     const id = generateUniqueId(text, index, block._key);
 
@@ -307,7 +307,7 @@ function processHeadingBlocks(
 
   try {
     const processedHeadings = headingBlocks
-      .map(createProcessedHeading)
+      .map((block: HeadingBlock, index) => createProcessedHeading(block, index))
       .filter((heading): heading is ProcessedHeading => heading !== null);
 
     return buildHeadingHierarchy(processedHeadings, maxDepth);

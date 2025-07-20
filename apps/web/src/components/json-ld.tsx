@@ -16,10 +16,6 @@ import type {
 import { getBaseUrl } from "@/config";
 import { client, urlFor } from "@/lib/sanity/client";
 import { querySettingsData } from "@/lib/sanity/query";
-import type {
-  QueryBlogSlugPageDataResult,
-  QuerySettingsDataResult,
-} from "@/lib/sanity/sanity.types";
 import { handleErrors } from "@/utils";
 
 interface RichTextChild {
@@ -115,8 +111,8 @@ function buildSafeImageUrl(image?: { asset?: { _ref: string } } | null) {
 
 // Article JSON-LD Component
 interface ArticleJsonLdProps {
-  article: QueryBlogSlugPageDataResult;
-  settings?: QuerySettingsDataResult;
+  article: any;
+  settings?: any;
 }
 export function ArticleJsonLd({ article, settings }: ArticleJsonLdProps) {
   if (!article) return null;
@@ -176,7 +172,7 @@ export function ArticleJsonLd({ article, settings }: ArticleJsonLdProps) {
 
 // Organization JSON-LD Component
 interface OrganizationJsonLdProps {
-  settings: QuerySettingsDataResult;
+  settings: any;
 }
 
 export function OrganizationJsonLd({ settings }: OrganizationJsonLdProps) {
@@ -215,7 +211,7 @@ export function OrganizationJsonLd({ settings }: OrganizationJsonLdProps) {
 
 // Website JSON-LD Component
 interface WebSiteJsonLdProps {
-  settings: QuerySettingsDataResult;
+  settings: any;
 }
 
 export function WebSiteJsonLd({ settings }: WebSiteJsonLdProps) {
@@ -240,8 +236,8 @@ export function WebSiteJsonLd({ settings }: WebSiteJsonLdProps) {
 
 // Combined JSON-LD Component for pages with multiple structured data
 interface CombinedJsonLdProps {
-  settings?: QuerySettingsDataResult;
-  article?: QueryBlogSlugPageDataResult;
+  settings?: any;
+  article?: any;
   faqs?: FlexibleFaq[];
   includeWebsite?: boolean;
   includeOrganization?: boolean;

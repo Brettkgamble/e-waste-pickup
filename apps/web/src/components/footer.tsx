@@ -2,10 +2,6 @@ import Link from "next/link";
 
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryFooterData, queryGlobalSeoSettings } from "@/lib/sanity/query";
-import type {
-  QueryFooterDataResult,
-  QueryGlobalSeoSettingsResult,
-} from "@/lib/sanity/sanity.types";
 
 import { Logo } from "./logo";
 import {
@@ -17,12 +13,12 @@ import {
 } from "./social-icons";
 
 interface SocialLinksProps {
-  data: NonNullable<QueryGlobalSeoSettingsResult>["socialLinks"];
+  data: NonNullable<any>["socialLinks"];
 }
 
 interface FooterProps {
-  data: NonNullable<QueryFooterDataResult>;
-  settingsData: NonNullable<QueryGlobalSeoSettingsResult>;
+  data: NonNullable<any>;
+  settingsData: NonNullable<any>;
 }
 
 export async function FooterServer() {
@@ -164,7 +160,7 @@ function Footer({ data, settingsData }: FooterProps) {
                     <h3 className="mb-6 font-semibold">{column?.title}</h3>
                     {column?.links && column?.links?.length > 0 && (
                       <ul className="space-y-4 text-sm text-muted-foreground dark:text-zinc-400">
-                        {column?.links?.map((link, index) => (
+                        {column?.links?.map((link: any, index: number) => (
                           <li
                             key={`${link?._key}-${index}-column-${column?._key}`}
                             className="font-medium hover:text-primary"

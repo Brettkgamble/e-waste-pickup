@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/blog-card";
 import { sanityFetch } from "@/lib/sanity/live";
 import { BLOGS_BY_CATEGORY_QUERY, CATEGORIES_QUERY } from "@/lib/sanity/query";
-import type { Blog, Category } from "@/lib/sanity/sanity.types";
+import type { Blog, BlogCategory } from "@/types/blog";
 
 export default async function CategoryDetailPage(props: any) {
   const params = await props.params;
@@ -11,7 +11,7 @@ export default async function CategoryDetailPage(props: any) {
 
   // Fetch all categories and find the one matching the slug
   const { data: categories } = await sanityFetch({ query: CATEGORIES_QUERY });
-  const typedCategories = categories as Category[];
+  const typedCategories = categories as BlogCategory[];
   const category = typedCategories.find(
     (cat) =>
       (typeof cat.slug === "object" ? cat.slug?.current : cat.slug) === slug,

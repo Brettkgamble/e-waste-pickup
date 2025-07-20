@@ -5,17 +5,7 @@ import { useState } from "react";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 
 import { BlogCard } from "./blog-card";
-import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
-
-type Blog = NonNullable<
-  NonNullable<QueryBlogIndexPageDataResult>["blogs"]
->[number] & {
-  categories?: Array<{
-    _id: string;
-    name: string;
-    slug: string;
-  }>;
-};
+import type { Blog } from "@/types/blog";
 
 type Category = {
   _id: string;
@@ -71,7 +61,10 @@ export function BlogCategoryList({
           existingGroup.blogs.push(blog);
         } else {
           groups.push({
-            category,
+            category: {
+              ...category,
+              slug: typeof category.slug === "object" ? category.slug.current : category.slug,
+            },
             blogs: [blog],
           });
         }

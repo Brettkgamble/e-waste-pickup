@@ -1,7 +1,7 @@
 export type BlogCategory = {
   _id: string;
   name: string;
-  slug: string;
+  slug: string | { current: string };
 };
 
 export type Blog = {
@@ -9,7 +9,7 @@ export type Blog = {
   _id: string;
   title: string;
   description: string | null;
-  slug: string;
+  slug: string | { current: string };
   richText: any | null; // Replace 'any' with your RichText type if available
   orderRank: string | null;
   image?: {
@@ -21,5 +21,12 @@ export type Blog = {
     };
     [key: string]: any;
   };
-  categories?: BlogCategory[]; // Always an array or undefined
+  publishedAt?: string | null;
+  authors?: Array<{
+    _id: string;
+    name: string;
+    position?: string;
+    image?: any;
+  }>;
+  categories?: BlogCategory[];
 };

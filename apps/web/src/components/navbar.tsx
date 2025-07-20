@@ -1,9 +1,5 @@
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryGlobalSeoSettings, queryNavbarData } from "@/lib/sanity/query";
-import type {
-  QueryGlobalSeoSettingsResult,
-  QueryNavbarDataResult,
-} from "@/lib/sanity/sanity.types";
 
 import { Logo } from "./logo";
 import { NavbarClient, NavbarSkeletonResponsive } from "./navbar-client";
@@ -22,8 +18,8 @@ export function Navbar({
   navbarData,
   settingsData,
 }: {
-  navbarData: QueryNavbarDataResult;
-  settingsData: QueryGlobalSeoSettingsResult;
+  navbarData: any;
+  settingsData: any;
 }) {
   const { siteTitle: settingsSiteTitle, logo } = settingsData ?? {};
   return (
