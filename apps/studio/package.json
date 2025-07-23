@@ -40,7 +40,7 @@
     "@sanity/schema": "^3.82.0",
     "@supercharge/promise-pool": "^3.2.0",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^19.1.0",
     "eslint": "^9.25.1",
     "eslint-plugin-import": "^2.31.0",
