@@ -181,7 +181,7 @@ const pageBuilderFragment = /* groq */ `
     ${ctaBlock},
     ${heroBlock},
     ${faqAccordionBlock},
-    ${featureCardsIconBlock},
+    ${featuredBlogBlock},
     ${featureCardsIconBlock},
     ${subscribeNewsletterBlock},
     ${imageLinkCardsBlock}
