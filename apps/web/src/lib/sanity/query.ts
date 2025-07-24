@@ -164,6 +164,16 @@ const featureCardsIconBlock = /* groq */ `
   }
 `;
 
+const featuredBlogBlock = /* groq */ `
+  _type == "featuredBlog" => {
+    blog[0]->{
+      ...,
+      ${blogCardFragment}
+    },
+    title,
+  }
+`;
+
 const pageBuilderFragment = /* groq */ `
   pageBuilder[]{
     ...,
@@ -171,6 +181,7 @@ const pageBuilderFragment = /* groq */ `
     ${ctaBlock},
     ${heroBlock},
     ${faqAccordionBlock},
+    ${featureCardsIconBlock},
     ${featureCardsIconBlock},
     ${subscribeNewsletterBlock},
     ${imageLinkCardsBlock}
