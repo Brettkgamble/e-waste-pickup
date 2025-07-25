@@ -43,6 +43,7 @@ export function FeaturedBlog({
   episode,
   liveDate,
 }: featuredBlogProps) {
+  console.log("FeaturedBlog", blog );
   return (
     <section
       className="container mx-auto flex flex-col md:flex-row gap-8 py-16 md:data-[orientation='imageLeft']:flex-row-reverse md:data-[orientation='imageRight']:flex-row md:data-[orientation='imageCenter']:flex-col"
@@ -51,11 +52,9 @@ export function FeaturedBlog({
       <div className="w-full order-2 md:order-1">
         <div className="grid h-full grid-rows-[auto_1fr_auto] gap-4 items-start justify-items-start text-left">
           <h1 className={`text-xl lg:text-2xl font-semibold text-balance`}>
-            <Link href={blog?.slug ?? "#"}>
-              <span className="absolute inset-0" />
+            <Link href={blog.slug}>
               {blog.title}
             </Link>
-            {/* {blog?.title} */}
           </h1>
           <RichText
             richText={blog?.richText}
