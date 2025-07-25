@@ -26,6 +26,17 @@ export const featuredBlog = defineType({
       type: "date",
     }),
     defineField({
+      name: "orientation",
+      type: "string",
+      options: {
+        list: [
+          { value: "imageLeft", title: "Image Left" },
+          { value: "imageRight", title: "Image Right" },
+          { value: "imageCenter", title: "Image Center"}
+        ],
+      },
+    }),
+    defineField({
           name: "blog",
           type: "array",
           title: "Featured Blog",
