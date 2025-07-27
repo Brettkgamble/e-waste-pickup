@@ -67,18 +67,25 @@ export default async function BlogIndexPage() {
     );
   }
 
+  // Sort blogs by publishedAt date (most recent first)
+  const sortedBlogs = [...blogs].sort((a, b) => {
+    const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    return dateB - dateA; // Most recent first
+  });
+
   const shouldDisplayFeaturedBlogs =
     displayFeaturedBlogs && validFeaturedBlogsCount > 0;
 
   const featuredBlogs = shouldDisplayFeaturedBlogs
-    ? blogs.slice(0, validFeaturedBlogsCount)
+    ? sortedBlogs.slice(0, validFeaturedBlogsCount)
     : [];
   const remainingBlogs = shouldDisplayFeaturedBlogs
-    ? blogs.slice(validFeaturedBlogsCount)
-    : blogs;
+    ? sortedBlogs.slice(validFeaturedBlogsCount)
+    : sortedBlogs;
 
   // Ensure categories is never null and name/slug are non-null strings
-  const normalizedBlogs = blogs.map((blog: Blog) => ({
+  const normalizedBlogs = sortedBlogs.map((blog: Blog) => ({
     ...blog,
     categories: (blog.categories ?? [])
       .filter((cat: BlogCategory) => cat && cat.name && cat.slug)

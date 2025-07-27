@@ -38,14 +38,21 @@ export default async function CategoryDetailPage(props: any) {
       ),
   );
 
+  // Sort blogs by publishedAt date (most recent first)
+  const sortedBlogs = [...validBlogs].sort((a, b) => {
+    const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    return dateB - dateA; // Most recent first
+  });
+
   return (
     <main className="container my-16 mx-auto px-4 md:px-6">
       <h1 className="text-3xl font-bold mb-8">{category.name}</h1>
-      {!validBlogs || validBlogs.length === 0 ? (
+      {!sortedBlogs || sortedBlogs.length === 0 ? (
         <p>No blog posts in this category yet.</p>
       ) : (
         <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
-          {validBlogs.map((blog) => (
+          {sortedBlogs.map((blog) => (
             <BlogCard
               key={blog._id}
               blog={{
