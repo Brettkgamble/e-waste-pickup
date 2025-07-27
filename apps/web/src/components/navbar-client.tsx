@@ -45,9 +45,11 @@ interface MenuItem {
 function MenuItemLink({
   item,
   setIsOpen,
+  onNavigate,
 }: {
   item: MenuItem;
   setIsOpen?: (isOpen: boolean) => void;
+  onNavigate?: () => void;
 }) {
   return (
     <Link
@@ -55,7 +57,10 @@ function MenuItemLink({
         "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground items-center focus:bg-accent focus:text-accent-foreground",
       )}
       aria-label={`Link to ${item.title ?? item.href}`}
-      onClick={() => setIsOpen?.(false)}
+      onClick={() => {
+        setIsOpen?.(false);
+        onNavigate?.();
+      }}
       href={item.href ?? "/"}
     >
       {item.icon}
@@ -237,19 +242,26 @@ export function NavbarColumn({
           <ul className={cn("p-3", layoutClass)}>
             {column.links?.map((item: any) => (
               <li key={item._key}>
-                <MenuItemLink
-                  item={{
-                    title: item.name ?? "",
-                    description: item.description ?? "",
-                    href: item.href ?? "",
-                    icon: (
-                      <SanityIcon
-                        icon={item.icon}
-                        className="size-5 shrink-0"
-                      />
-                    ),
-                  }}
-                />
+                <NavigationMenuLink asChild>
+                  <Link
+                    className={cn(
+                      "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground items-center focus:bg-accent focus:text-accent-foreground",
+                    )}
+                    aria-label={`Link to ${item.name ?? item.href}`}
+                    href={item.href ?? "/"}
+                  >
+                    <SanityIcon
+                      icon={item.icon}
+                      className="size-5 shrink-0"
+                    />
+                    <div className="">
+                      <div className="text-sm font-semibold">{item.name}</div>
+                      <p className="text-sm leading-snug text-muted-foreground line-clamp-2">
+                        {item.description}
+                      </p>
+                    </div>
+                  </Link>
+                </NavigationMenuLink>
               </li>
             ))}
           </ul>
