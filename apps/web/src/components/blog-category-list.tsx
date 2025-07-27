@@ -1,10 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
-
-import { BlogCard } from "./blog-card";
 import type { Blog } from "@/types/blog";
 
 type Category = {
@@ -29,10 +25,6 @@ export function BlogCategoryList({
   title,
   description,
 }: BlogCategoryListProps) {
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(),
-  );
-
   // Group blogs by category
   const categoryGroups: CategoryGroup[] = blogs.reduce((groups, blog) => {
     if (!blog.categories || blog.categories.length === 0) {
@@ -80,16 +72,6 @@ export function BlogCategoryList({
     return a.category.name.localeCompare(b.category.name);
   });
 
-  const toggleCategory = (categoryId: string) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(categoryId)) {
-      newExpanded.delete(categoryId);
-    } else {
-      newExpanded.add(categoryId);
-    }
-    setExpandedCategories(newExpanded);
-  };
-
   if (!blogs.length) {
     return (
       <div className="text-center py-12">
@@ -114,7 +96,6 @@ export function BlogCategoryList({
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 mt-8">
         {categoryGroups.map(({ category, blogs: categoryBlogs }) => {
-          const isExpanded = expandedCategories.has(category._id);
           const blogCount = categoryBlogs.length;
 
           return (
@@ -122,39 +103,19 @@ export function BlogCategoryList({
               key={category._id}
               className="border rounded-lg overflow-hidden"
             >
-              <button
-                onClick={() => toggleCategory(category._id)}
-                className="w-full px-6 py-4 bg-muted/50 hover:bg-muted transition-colors flex items-center justify-between text-left"
+              <Link
+                href={`/blog/categories/${category.slug}`}
+                className="w-full px-6 py-4 bg-muted/50 hover:bg-muted transition-colors flex items-center justify-between text-left block"
               >
                 <div className="flex items-center gap-3">
-                  {isExpanded ? (
-                    <ChevronDownIcon className="h-5 w-5 text-muted-foreground" />
-                  ) : (
-                    <ChevronRightIcon className="h-5 w-5 text-muted-foreground" />
-                  )}
-                  <h3 className="text-lg font-semibold">
-                    <Link
-                      href={`/blog/categories/${category.slug}`}
-                      className="hover:underline"
-                    >
-                      {category.name}
-                    </Link>
+                  <h3 className="text-lg font-semibold hover:underline">
+                    {category.name}
                   </h3>
                   <span className="text-sm text-muted-foreground bg-background px-2 py-1 rounded-full">
                     {blogCount} {blogCount === 1 ? "post" : "posts"}
                   </span>
                 </div>
-              </button>
-
-              {isExpanded && (
-                <div className="p-6 bg-background">
-                  <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
-                    {categoryBlogs.map((blog) => (
-                      <BlogCard key={blog._id} blog={blog} />
-                    ))}
-                  </div>
-                </div>
-              )}
+              </Link>
             </div>
           );
         })}
