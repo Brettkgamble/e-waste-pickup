@@ -23,7 +23,7 @@ import {
 } from "@workspace/ui/components/sheet";
 import { Sheet, SheetTrigger } from "@workspace/ui/components/sheet";
 import { cn } from "@workspace/ui/lib/utils";
-import { Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -233,41 +233,53 @@ export function NavbarColumn({
     () => getColumnLayoutClass(column.links?.length ?? 0),
     [column.links?.length],
   );
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <NavigationMenuList>
-      <NavigationMenuItem className="text-muted-foreground dark:text-neutral-300">
-        <NavigationMenuTrigger>{column.title}</NavigationMenuTrigger>
-        <NavigationMenuContent>
+    <div 
+      className="relative"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <button
+        className={cn(
+          "flex items-center gap-1 h-auto py-1 px-3 text-muted-foreground dark:text-neutral-300 hover:text-foreground transition-colors",
+          navigationMenuTriggerStyle()
+        )}
+      >
+        {column.title}
+        <ChevronDown className="ml-1 h-3 w-3 transition-transform duration-200" />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 bg-popover border rounded-md shadow-lg z-50 min-w-[320px]">
           <ul className={cn("p-3", layoutClass)}>
             {column.links?.map((item: any) => (
               <li key={item._key}>
-                <NavigationMenuLink asChild>
-                  <Link
-                    className={cn(
-                      "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground items-center focus:bg-accent focus:text-accent-foreground",
-                    )}
-                    aria-label={`Link to ${item.name ?? item.href}`}
-                    href={item.href ?? "/"}
-                  >
-                    <SanityIcon
-                      icon={item.icon}
-                      className="size-5 shrink-0"
-                    />
-                    <div className="">
-                      <div className="text-sm font-semibold">{item.name}</div>
-                      <p className="text-sm leading-snug text-muted-foreground line-clamp-2">
-                        {item.description}
-                      </p>
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
+                <Link
+                  className={cn(
+                    "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground items-center focus:bg-accent focus:text-accent-foreground",
+                  )}
+                  aria-label={`Link to ${item.name ?? item.href}`}
+                  href={item.href ?? "/"}
+                >
+                  <SanityIcon
+                    icon={item.icon}
+                    className="size-5 shrink-0"
+                  />
+                  <div className="">
+                    <div className="text-sm font-semibold">{item.name}</div>
+                    <p className="text-sm leading-snug text-muted-foreground line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>
-        </NavigationMenuContent>
-      </NavigationMenuItem>
-    </NavigationMenuList>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -280,7 +292,7 @@ export function DesktopNavbar({
 
   return (
     <div className="grid grid-cols-[1fr_auto] items-center gap-8">
-      <NavigationMenu className="">
+      <div className="flex items-center gap-4">
         {columns?.map((column: any) =>
           column.type === "column" ? (
             <NavbarColumn key={`nav-${column._key}`} column={column} />
@@ -288,7 +300,7 @@ export function DesktopNavbar({
             <NavbarColumnLink key={`nav-${column._key}`} column={column} />
           ),
         )}
-      </NavigationMenu>
+      </div>
 
       <div className="justify-self-end flex items-center gap-4">
         <ModeToggle />
