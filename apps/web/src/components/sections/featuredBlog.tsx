@@ -43,17 +43,23 @@ export function FeaturedBlog({
   episode,
   liveDate,
 }: featuredBlogProps) {
+  // Clean the orientation value once to ensure consistency
+  const cleanOrientation = stegaClean(orientation) || "imageLeft";
+  
+  // Ensure blog.slug is a string
+  const blogSlug = typeof blog.slug === "object" ? blog.slug.current : blog.slug;
+
   return (
     <section id="featured-blog" className="px-4 py-4 sm:py-6 md:py-8">
       <div 
         className="container mx-auto flex flex-col md:flex-row gap-8 px-4 md:px-8 py-2 sm:py-4 md:py-6 lg:py-8 bg-gray-50 dark:bg-zinc-900 rounded-3xl overflow-hidden 
           md:data-[orientation='imageLeft']:flex-row-reverse md:data-[orientation='imageRight']:flex-row md:data-[orientation='imageCenter']:flex-col"
-          data-orientation={stegaClean(orientation) || "imageLeft"}
+          data-orientation={cleanOrientation}
       >
         <div className="w-full order-2 md:order-1">
           <div className="grid h-full grid-rows-[auto_1fr_auto] gap-4 items-start justify-items-start text-left">
             <h1 className={`text-xl lg:text-2xl font-semibold text-balance`}>
-              <Link href={blog.slug}>
+              <Link href={blogSlug}>
                 {blog.title}
               </Link>
             </h1>
