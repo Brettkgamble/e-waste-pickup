@@ -22,7 +22,7 @@ export function Logo({
   alt = "logo",
   image,
   width = 175,
-  height = 50,
+  height = 70,
   priority = true,
 }: LogoProps) {
   return (
@@ -33,7 +33,7 @@ export function Logo({
           alt={alt ?? "logo"}
           width={width}
           //className="w-[170px] h-[40px] dark:invert"
-          className="w-[174px] h-[50px]"
+          // className="w-[170px] h-[70px]"
           height={height}
           priority={priority}
           loading="eager"
@@ -46,7 +46,7 @@ export function Logo({
           alt={alt ?? "logo"}
           width={width}
           // className="w-[170px] h-[40px] dark:invert"
-          className="w-[174px] h-[50px]"
+          // className="w-[170px] h-[70px]"
           height={height}
           loading="eager"
           priority={priority}
