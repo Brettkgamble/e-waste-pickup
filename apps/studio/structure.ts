@@ -164,5 +164,7 @@ export const structure = (
               }),
             ]),
         ),
+      createList({ S, type: "job", title: "Jobs", icon: User }),
+      S.divider(),
     ]);
 };
