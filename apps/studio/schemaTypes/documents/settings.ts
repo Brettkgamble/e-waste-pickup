@@ -38,6 +38,12 @@ const socialLinks = defineField({
       description: "Full URL to your YouTube channel",
       type: "string",
     }),
+    defineField({
+      name: "medium",
+      title: "Medium URL",
+      description: "Full URL to your Medium profile/publication",
+      type: "string",
+    }),
   ],
 });
 

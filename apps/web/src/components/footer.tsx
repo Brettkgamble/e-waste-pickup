@@ -8,6 +8,7 @@ import {
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
+  MediumIcon,
   XIcon,
   YoutubeIcon,
 } from "./social-icons";
@@ -38,7 +39,7 @@ export async function FooterServer() {
 function SocialLinks({ data }: SocialLinksProps) {
   if (!data) return null;
 
-  const { facebook, twitter, instagram, youtube, linkedin } = data;
+  const { facebook, twitter, instagram, youtube, linkedin, medium } = data;
 
   const socialLinks = [
     {
@@ -53,6 +54,11 @@ function SocialLinks({ data }: SocialLinksProps) {
       url: youtube,
       Icon: YoutubeIcon,
       label: "Subscribe to our YouTube channel",
+    },
+    {
+      url: medium,
+      Icon: MediumIcon,
+      label: "Follow us on Medium",
     },
   ].filter((link) => link.url);
 

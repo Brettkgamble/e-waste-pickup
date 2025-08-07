@@ -385,7 +385,8 @@ export const queryGlobalSeoSettings = defineQuery(`
       facebook,
       twitter,
       instagram,
-      youtube
+      youtube,
+      medium
     }
   }
 `);
