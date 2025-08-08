@@ -86,6 +86,21 @@ export const metals = defineType({
       initialValue: "active",
       validation: (Rule) => Rule.required().error("Status is required"),
     }),
+    defineField({
+      name: "images",
+      type: "array",
+      title: "Metal Images",
+      description: "Images of this metal type for identification and reference",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {

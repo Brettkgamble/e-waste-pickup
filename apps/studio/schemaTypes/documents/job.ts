@@ -1,6 +1,7 @@
 import { BriefcaseIcon } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import UuidFieldComponent from "../../components/uuid-field-component";
 import { GROUP, GROUPS } from "../../utils/constant";
 
 export const job = defineType({
@@ -12,24 +13,23 @@ export const job = defineType({
   description: "A job that involves purchasing and weighing scrap metals",
   fields: [
     defineField({
-      name: "jobId",
+      name: "name",
       type: "string",
-      title: "Job ID",
-      description: "Unique identifier for this job",
-      group: GROUP.MAIN_CONTENT,
-      validation: (Rule) => 
-        Rule.required().error("Job ID is required")
-        .min(3).warning("Job ID should be at least 3 characters")
-        .max(20).warning("Job ID should not exceed 20 characters")
-        .regex(/^[A-Z0-9-]+$/, "Job ID should only contain uppercase letters, numbers, and hyphens"),
-    }),
-    defineField({
-      name: "title",
-      type: "string",
-      title: "Job Title",
+      title: "Job Name",
       description: "A descriptive name for this job",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A job title is required"),
+    }),
+    defineField({
+      name: "jobId",
+      type: "string",
+      title: "Job ID",
+      description: "Unique identifier that can be generated using the button below",
+      group: GROUP.MAIN_CONTENT,
+      components: {
+        input: UuidFieldComponent,
+      },
+      validation: (Rule) => Rule.required().error("Job ID is required"),
     }),
     defineField({
       name: "description",
@@ -38,23 +38,27 @@ export const job = defineType({
       description: "Detailed description of the job and what metals are being processed",
       group: GROUP.MAIN_CONTENT,
       rows: 4,
-      validation: (Rule) => Rule.required().error("A job description is required"),
     }),
-    defineField({
-      name: "image",
-      title: "Job Image",
-      description: "Image related to this job (e.g., photos of the metals, job site, or equipment)",
-      type: "image",
+      defineField({
+      name: "images",
+      title: "Job Images",
+      description: "Images related to this job (e.g., photos of the metals, job site, or equipment)",
+      type: "array",
       group: GROUP.MAIN_CONTENT,
-      options: {
-        hotspot: true,
-      },
+      of: [
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
     }),
-    defineField({
+      defineField({
       name: "metals",
       type: "array",
       title: "Metals",
-      description: "The metals being weighed and purchased for this job",
+      description: "The metals being weighed and recyled for this job",
       group: GROUP.MAIN_CONTENT,
       of: [
         defineArrayMember({
@@ -95,6 +99,20 @@ export const job = defineType({
               description: "Additional notes about this metal entry",
               rows: 2,
             }),
+            defineField({
+              name: "images",
+              type: "array",
+              title: "Metal Entry Images",
+              description: "Images documenting this specific metal entry (e.g., photos of the metal, weighing process, or condition)",
+              of: [
+                {
+                  type: "image",
+                  options: {
+                    hotspot: true,
+                  },
+                },
+              ],
+            }),
           ],
           preview: {
             select: {
@@ -109,27 +127,24 @@ export const job = defineType({
           },
         }),
       ],
-      validation: (Rule) => 
-        Rule.required().error("At least one metal entry is required")
-        .min(1).error("At least one metal entry is required"),
     }),
-    defineField({
+      defineField({
       name: "totalWeight",
       type: "number",
-      title: "Total Weight",
-      description: "The total weight of all metals in this job",
+      title: "Total Recyclable Metal Weight",
+      description: "The total weight of all recyclable metals collected in this job (in pounds)",
       group: GROUP.MAIN_CONTENT,
       readOnly: true,
       validation: (Rule) => Rule.min(0).error("Total weight must be a positive number"),
     }),
-    defineField({
+      defineField({
       name: "totalPurchasePrice",
       type: "number",
-      title: "Total Purchase Price",
-      description: "The total amount paid for all metals in this job",
+      title: "Total Income from Recyclable Metals",
+      description: "The total income generated from all recyclable metals in this job (in dollars)",
       group: GROUP.MAIN_CONTENT,
       readOnly: true,
-      validation: (Rule) => Rule.min(0).error("Total purchase price must be a positive number"),
+      validation: (Rule) => Rule.min(0).error("Total income must be a positive number"),
     }),
     defineField({
       name: "status",
@@ -148,14 +163,13 @@ export const job = defineType({
       initialValue: "in-progress",
       validation: (Rule) => Rule.required().error("Job status is required"),
     }),
-    defineField({
+      defineField({
       name: "dateCreated",
       type: "date",
       title: "Date Created",
       description: "When this job was created",
       group: GROUP.MAIN_CONTENT,
       initialValue: () => new Date().toISOString().split("T")[0],
-      validation: (Rule) => Rule.required().error("Date created is required"),
     }),
     defineField({
       name: "dateCompleted",
@@ -174,14 +188,10 @@ export const job = defineType({
         defineArrayMember({
           type: "reference",
           to: [{ type: "customer" }],
-          validation: (Rule) => Rule.required().error("Customer is required"),
         }),
       ],
-      validation: (Rule) => 
-        Rule.required().error("At least one customer is required")
-        .min(1).error("At least one customer is required"),
     }),
-    defineField({
+      defineField({
       name: "relatedBlogPosts",
       type: "array",
       title: "Related Blog Posts",
@@ -194,30 +204,34 @@ export const job = defineType({
         }),
       ],
     }),
+    defineField({
+      name: "processes",
+      type: "array",
+      title: "Processes",
+      description: "Processing steps associated with this job",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "process" }],
+        }),
+      ],
+    }),
   ],
   preview: {
     select: {
+      name: "name",
       jobId: "jobId",
-      title: "title",
-      status: "status",
-      totalWeight: "totalWeight",
-      totalPrice: "totalPurchasePrice",
-      customer: "customer[0].name",
-      dateCreated: "dateCreated",
-      media: "image",
+      media: "images.0.asset",
     },
-    prepare: ({ jobId, title, status, totalWeight, totalPrice, customer, dateCreated, media }) => {
-      const statusIndicator = status === "completed" ? "✅" : 
-                             status === "in-progress" ? "🔄" : "❌";
-      const jobIdInfo = jobId ? `[${jobId}] ` : "";
-      const weightInfo = totalWeight ? ` • ${totalWeight} lbs` : "";
-      const priceInfo = totalPrice ? ` • $${totalPrice}` : "";
-      const customerInfo = customer ? ` • ${customer}` : "";
-      const dateInfo = dateCreated ? ` • ${new Date(dateCreated).toLocaleDateString()}` : "";
-
+    prepare: ({
+      name,
+      jobId,
+      media,
+    }) => {
       return {
-        title: `${jobIdInfo}${title || "Untitled Job"}`,
-        subtitle: `${statusIndicator}${weightInfo}${priceInfo}${customerInfo}${dateInfo}`,
+        title: name || "Untitled Blog",
+        subtitle: jobId,
         media,
       };
     },

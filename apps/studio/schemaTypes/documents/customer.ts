@@ -20,6 +20,13 @@ export const customer = defineType({
       validation: (Rule) => Rule.required().error("Customer name is required"),
     }),
     defineField({
+      name: "companyName",
+      type: "string",
+      title: "Company Name",
+      description: "Company or organization name (if applicable)",
+      group: GROUP.MAIN_CONTENT,
+    }),
+    defineField({
       name: "email",
       type: "string",
       title: "Email Address",
@@ -35,7 +42,6 @@ export const customer = defineType({
       title: "Phone Number",
       description: "Primary phone number for contacting the customer",
       group: GROUP.MAIN_CONTENT,
-      validation: (Rule) => Rule.required().error("Phone number is required"),
     }),
     defineField({
       name: "address",
@@ -49,28 +55,24 @@ export const customer = defineType({
           type: "string",
           title: "Street Address",
           description: "Street address and number",
-          validation: (Rule) => Rule.required().error("Street address is required"),
         }),
         defineField({
           name: "city",
           type: "string",
           title: "City",
           description: "City or town",
-          validation: (Rule) => Rule.required().error("City is required"),
         }),
         defineField({
           name: "state",
           type: "string",
           title: "State/Province",
           description: "State or province",
-          validation: (Rule) => Rule.required().error("State is required"),
         }),
         defineField({
           name: "zipCode",
           type: "string",
           title: "ZIP/Postal Code",
           description: "ZIP code or postal code",
-          validation: (Rule) => Rule.required().error("ZIP code is required"),
         }),
       ],
       options: {
@@ -98,20 +100,22 @@ export const customer = defineType({
   preview: {
     select: {
       name: "name",
+      companyName: "companyName",
       email: "email",
       phone: "phone",
       city: "address.city",
       state: "address.state",
       dateCreated: "dateCreated",
     },
-    prepare: ({ name, email, phone, city, state, dateCreated }) => {
+    prepare: ({ name, companyName, email, phone, city, state, dateCreated }) => {
       const location = city && state ? `${city}, ${state}` : "";
       const contact = email || phone || "";
       const dateInfo = dateCreated ? ` • ${new Date(dateCreated).toLocaleDateString()}` : "";
+      const companyInfo = companyName ? ` • ${companyName}` : "";
 
       return {
         title: name || "Unnamed Customer",
-        subtitle: `${contact}${location ? ` • ${location}` : ""}${dateInfo}`,
+        subtitle: `${contact}${companyInfo}${location ? ` • ${location}` : ""}${dateInfo}`,
       };
     },
   },

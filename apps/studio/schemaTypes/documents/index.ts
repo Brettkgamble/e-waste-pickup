@@ -10,8 +10,9 @@ import { job } from "./job";
 import { metals } from "./metals";
 import { navbar } from "./navbar";
 import { page } from "./page";
+import { process } from "./process";
 import { settings } from "./settings";
 
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
-export const documents = [blog, categoryType, customer, job, metals, page, faq, author, ...singletons];
+export const documents = [blog, categoryType, customer, job, metals, page, process, faq, author, ...singletons];
