@@ -63,7 +63,7 @@ export function SubscribeNewsletter({
   return (
     <section id="subscribe" className="px-4 py-4 sm:py-6 md:py-8">
       {/* <div className="relative container mx-auto px-4 md:px-8 py-8 sm:py-16 md:py-24 lg:py-32 bg-gray-50 dark:bg-zinc-900 rounded-3xl overflow-hidden"></div> */}
-      <div className="relative container mx-auto px-4 md:px-8 py-2 sm:py-4 md:py-6 lg:py-8 bg-gray-50 dark:bg-zinc-900 rounded-3xl overflow-hidden">
+      <div className="relative container mx-auto px-4 md:px-8 py-2 sm:py-4 md:py-6 lg:py-8 bg-green-100 dark:bg-zinc-900 rounded-3xl overflow-hidden">
         <div className="relative z-10 mx-auto text-center">
           <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-neutral-300 sm:text-2xl md:text-4xl text-balance">
             {title}

@@ -20,7 +20,7 @@ function BlogImage({ image, title }: BlogImageProps) {
   if (!image?.asset) return null;
 
   return (
-    <div className="relative w-full aspect-[16/9] rounded-2xl bg-gray-100 overflow-hidden">
+    <div className="relative w-full aspect-[16/9] rounded-2xl bg-green-200 overflow-hidden">
       <SanityImage
         asset={image}
         alt={title ?? "Blog post image"}
@@ -52,7 +52,7 @@ export function FeaturedBlog({
   return (
     <section id="featured-blog" className="px-4 py-4 sm:py-6 md:py-8">
       <div 
-        className="container mx-auto flex flex-col md:flex-row gap-8 px-4 md:px-8 py-2 sm:py-4 md:py-6 lg:py-8 bg-gray-50 dark:bg-zinc-900 rounded-3xl overflow-hidden 
+        className="container mx-auto flex flex-col md:flex-row gap-8 px-4 md:px-8 py-2 sm:py-4 md:py-6 lg:py-8 bg-green-100 dark:bg-zinc-900 rounded-3xl overflow-hidden 
           md:data-[orientation='imageLeft']:flex-row-reverse md:data-[orientation='imageRight']:flex-row md:data-[orientation='imageCenter']:flex-col"
           data-orientation={cleanOrientation}
       >
