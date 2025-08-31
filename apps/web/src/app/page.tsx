@@ -3,7 +3,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryHomePageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
-async function fetchHomePageData(stega = true) {
+async function fetchHomePageData(stega = false) {
   return await sanityFetch({
     query: queryHomePageData,
     stega,
