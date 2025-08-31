@@ -84,7 +84,7 @@ export function PageBuilder({
 
         return (
           <div
-            key={`${block._type}-${block._key}`}
+            key={`${block._type}-${block._key}-${id}`}
             data-sanity={createDataAttribute({
               id: id,
               baseUrl: studioUrl,
