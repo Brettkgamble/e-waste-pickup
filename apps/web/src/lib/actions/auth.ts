@@ -1,11 +1,11 @@
 "use server";
 
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut } from "next-auth/react";
 
 export const login = async () => {
   await signIn("github", { redirectTo: "/admin/dashboard" });
 };
 
 export const logout = async () => {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirect: true });
 };
