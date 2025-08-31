@@ -1,4 +1,6 @@
 // https://www.youtube.com/watch?v=n-fVrzaikBQ
-import { handlers } from "@/auth";
+import NextAuth from "@/auth";
 
-export const { GET, POST } = handlers;
+const handler = NextAuth();
+
+export const { GET, POST } = handler;

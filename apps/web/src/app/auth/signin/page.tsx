@@ -2,13 +2,14 @@
 "use server";
 
 import Link from "next/link";
+import { getServerSession } from "next-auth";
 
-import { auth } from "@/auth";
+import { authOptions } from "@/auth";
 import { SignInButton } from "@/components/ui/sign-in-button";
 import { SignOutButton } from "@/components/ui/sign-out-button";
 
 export default async function Page() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   if (session?.user) {
     return (
