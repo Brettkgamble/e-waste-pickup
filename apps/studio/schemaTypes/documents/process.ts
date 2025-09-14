@@ -94,6 +94,19 @@ export const process = defineType({
       validation: (Rule) => Rule.required().error("Date created is required"),
     }),
     defineField({
+      name: "materialUsages",
+      type: "array",
+      title: "Material Usages",
+      description: "Materials used in this processing step with quantities and costs",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "materialUsage" }],
+        }),
+      ],
+    }),
+    defineField({
       name: "images",
       type: "array",
       title: "Process Images",
