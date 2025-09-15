@@ -39,34 +39,16 @@ export const process = defineType({
         .min(0).error("Starting weight must be a positive number"),
     }),
     defineField({
-      name: "accumulatedTime",
-      type: "object",
-      title: "Accumulated Time",
-      description: "Total time spent on this process",
+      name: "timeRecords",
+      type: "array",
+      title: "Time Records",
+      description: "Individual time entries for tracking work on this process",
       group: GROUP.MAIN_CONTENT,
-      fields: [
-        defineField({
-          name: "hours",
-          type: "number",
-          title: "Hours",
-          description: "Number of hours",
-          validation: (Rule) => 
-            Rule.required().error("Hours are required")
-            .min(0).error("Hours must be a positive number"),
-        }),
-        defineField({
-          name: "minutes",
-          type: "number",
-          title: "Minutes",
-          description: "Number of minutes (0-59)",
-          validation: (Rule) => 
-            Rule.required().error("Minutes are required")
-            .min(0).max(59).error("Minutes must be between 0 and 59"),
+      of: [
+        defineArrayMember({
+          type: "timeRecord",
         }),
       ],
-      options: {
-        columns: 2,
-      },
     }),
     defineField({
       name: "metals",
@@ -126,14 +108,27 @@ export const process = defineType({
     select: {
       name: "name",
       startingWeight: "startingWeight",
-      hours: "accumulatedTime.hours",
-      minutes: "accumulatedTime.minutes",
+      timeRecords: "timeRecords",
       dateCreated: "dateCreated",
     },
-    prepare: ({ name, startingWeight, hours, minutes, dateCreated }) => {
-      const timeInfo = hours !== undefined && minutes !== undefined 
-        ? ` • ${hours}h ${minutes}m` 
-        : "";
+    prepare: ({ name, startingWeight, timeRecords, dateCreated }) => {
+      // Calculate total time from timeRecords
+      let totalMinutes = 0;
+      if (timeRecords && Array.isArray(timeRecords)) {
+        totalMinutes = timeRecords.reduce((total, record) => {
+          if (record.startTime && record.endTime) {
+            const start = new Date(record.startTime).getTime();
+            const end = new Date(record.endTime).getTime();
+            const duration = Math.round((end - start) / (1000 * 60)); // Convert to minutes
+            return total + duration;
+          }
+          return total;
+        }, 0);
+      }
+      
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      const timeInfo = totalMinutes > 0 ? ` • ${hours}h ${minutes}m` : "";
       const weightInfo = startingWeight ? ` • ${startingWeight} lbs` : "";
       const dateInfo = dateCreated ? ` • ${new Date(dateCreated).toLocaleDateString()}` : "";
 
