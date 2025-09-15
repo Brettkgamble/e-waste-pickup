@@ -76,6 +76,13 @@ export const process = defineType({
       validation: (Rule) => Rule.required().error("Date created is required"),
     }),
     defineField({
+      name: "dateCompleted",
+      type: "date",
+      title: "Date Completed",
+      description: "When this process was completed (if applicable)",
+      group: GROUP.MAIN_CONTENT,
+    }),
+    defineField({
       name: "materialUsages",
       type: "array",
       title: "Material Usages",
@@ -110,8 +117,9 @@ export const process = defineType({
       startingWeight: "startingWeight",
       timeRecords: "timeRecords",
       dateCreated: "dateCreated",
+      dateCompleted: "dateCompleted",
     },
-    prepare: ({ name, startingWeight, timeRecords, dateCreated }) => {
+    prepare: ({ name, startingWeight, timeRecords, dateCreated, dateCompleted }) => {
       // Calculate total time from timeRecords
       let totalMinutes = 0;
       if (timeRecords && Array.isArray(timeRecords)) {
@@ -130,11 +138,14 @@ export const process = defineType({
       const minutes = totalMinutes % 60;
       const timeInfo = totalMinutes > 0 ? ` • ${hours}h ${minutes}m` : "";
       const weightInfo = startingWeight ? ` • ${startingWeight} lbs` : "";
-      const dateInfo = dateCreated ? ` • ${new Date(dateCreated).toLocaleDateString()}` : "";
+      const statusInfo = dateCompleted ? " • Completed" : " • In Progress";
+      const dateInfo = dateCompleted 
+        ? ` • ${new Date(dateCompleted).toLocaleDateString()}` 
+        : dateCreated ? ` • Started ${new Date(dateCreated).toLocaleDateString()}` : "";
 
       return {
         title: name || "Unnamed Process",
-        subtitle: `${timeInfo}${weightInfo}${dateInfo}`,
+        subtitle: `${timeInfo}${weightInfo}${statusInfo}${dateInfo}`,
       };
     },
   },

@@ -4288,6 +4288,13 @@
         },
         "optional": true
       },
+      "dateCompleted": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "materialUsages": {
         "type": "objectAttribute",
         "value": {
