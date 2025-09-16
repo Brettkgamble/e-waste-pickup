@@ -456,3 +456,153 @@ export const BLOGS_BY_CATEGORY_QUERY = defineQuery(`*[
   }
 }
 `);
+
+// Job Dashboard Queries
+export const JOBS_DASHBOARD_SUMMARY_QUERY = defineQuery(`{
+  "totalJobs": count(*[_type == "job"]),
+  "completedJobs": count(*[_type == "job" && status == "completed"]),
+  "inProgressJobs": count(*[_type == "job" && status == "in-progress"]),
+  "cancelledJobs": count(*[_type == "job" && status == "cancelled"]),
+  "allJobs": *[_type == "job"]{
+    totalWeight,
+    totalPurchasePrice
+  },
+  "recentJobs": *[_type == "job"] | order(_createdAt desc)[0...5]{
+    _id,
+    name,
+    jobId,
+    status,
+    totalWeight,
+    totalPurchasePrice,
+    dateCreated,
+    "customerCount": count(customer)
+  }
+}`);
+
+export const JOBS_LIST_QUERY = defineQuery(`*[_type == "job"] | order(_createdAt desc){
+  _id,
+  name,
+  jobId,
+  description,
+  status,
+  totalWeight,
+  totalPurchasePrice,
+  dateCreated,
+  dateCompleted,
+  "customers": customer[]->{
+    _id,
+    name,
+    companyName,
+    email,
+    phone
+  },
+  "metalCount": count(metals),
+  "processCount": count(processes),
+  "imageCount": count(images)
+}`);
+
+export const JOB_DETAIL_QUERY = defineQuery(`*[_type == "job" && _id == $jobId][0]{
+  _id,
+  name,
+  jobId,
+  description,
+  status,
+  totalWeight,
+  totalPurchasePrice,
+  dateCreated,
+  dateCompleted,
+  "images": images[]{
+    _id,
+    _type,
+    asset->{
+      _id,
+      _type,
+      url,
+      "alt": coalesce(altText, originalFilename, "no-alt"),
+      "blurData": metadata.lqip,
+      "dominantColor": metadata.palette.dominant.background
+    }
+  },
+  "customers": customer[]->{
+    _id,
+    name,
+    companyName,
+    email,
+    phone,
+    address,
+    notes
+  },
+  "metals": metals[]{
+    _key,
+    weight,
+    purchasePrice,
+    notes,
+    "metal": metal->{
+      _id,
+      name,
+      type,
+      currentPricePerPound,
+      unit
+    },
+    "images": images[]{
+      _id,
+      _type,
+      asset->{
+        _id,
+        _type,
+        url,
+        "alt": coalesce(altText, originalFilename, "no-alt"),
+        "blurData": metadata.lqip,
+        "dominantColor": metadata.palette.dominant.background
+      }
+    }
+  },
+  "processes": processes[]->{
+    _id,
+    name,
+    description
+  },
+  "relatedBlogPosts": relatedBlogPosts[]->{
+    _id,
+    title,
+    "slug": slug.current
+  }
+}`);
+
+export const METAL_ANALYTICS_QUERY = defineQuery(`{
+  "metalTypes": *[_type == "metals"]{
+    _id,
+    name,
+    type,
+    currentPricePerPound,
+    unit,
+    isActive
+  },
+  "metalUsage": *[_type == "job" && defined(metals)]{
+    "metals": metals[]{
+      "metal": metal->{
+        _id,
+        name,
+        type
+      },
+      weight,
+      purchasePrice
+    }
+  }
+}`);
+
+export const CUSTOMER_ANALYTICS_QUERY = defineQuery(`{
+  "totalCustomers": count(*[_type == "customer"]),
+  "customersWithJobs": count(*[_type == "customer" && count(*[_type == "job" && references(^._id)]) > 0]),
+  "topCustomers": *[_type == "customer"]{
+    _id,
+    name,
+    companyName,
+    email,
+    "jobCount": count(*[_type == "job" && references(^._id)]),
+    "jobs": *[_type == "job" && references(^._id)] | order(dateCreated desc){
+      totalPurchasePrice,
+      dateCreated
+    }
+  } | order(jobCount desc)[0...10]
+}`);
