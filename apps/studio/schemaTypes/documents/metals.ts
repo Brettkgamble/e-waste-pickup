@@ -46,11 +46,11 @@ export const metals = defineType({
     defineField({
       name: "currentPricePerPound",
       type: "number",
-      title: "Current Price per Pound",
-      description: "The current market price per pound for this metal",
+      title: "Current Price per Unit",
+      description: "The current market price per unit for this metal",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => 
-        Rule.required().error("Current price per pound is required")
+        Rule.required().error("Current price per unit is required")
         .min(0).error("Price must be a positive number"),
     }),
     defineField({
@@ -61,13 +61,12 @@ export const metals = defineType({
       group: GROUP.MAIN_CONTENT,
       options: {
         list: [
-          { title: "Pounds", value: "lbs" },
+          { title: "Grams", value: "g" },
           { title: "Kilograms", value: "kg" },
-          { title: "Tons", value: "tons" },
         ],
         layout: "radio",
       },
-      initialValue: "lbs",
+      initialValue: "g",
       validation: (Rule) => Rule.required().error("Unit of measurement is required"),
     }),
     defineField({
@@ -98,6 +97,19 @@ export const metals = defineType({
           options: {
             hotspot: true,
           },
+        },
+      ],
+    }),
+    defineField({
+      name: "amountRecovered",
+      type: "array",
+      title: "Amount Recovered",
+      description: "Refining steps that track the amount of this metal recovered",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        {
+          type: "reference",
+          to: { type: "refiningStep" },
         },
       ],
     }),
