@@ -7,7 +7,6 @@ import { faq } from "./faq";
 import { footer } from "./footer";
 import { homePage } from "./home-page";
 import { job } from "./job";
-import { materialUsage } from "./materialUsage";
 import { materials } from "./materials";
 import { metals } from "./metals";
 import { navbar } from "./navbar";
@@ -18,4 +17,4 @@ import { settings } from "./settings";
 
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
-export const documents = [blog, categoryType, customer, job, materialUsage, materials, metals, page, process, refiningStep, faq, author, ...singletons];
+export const documents = [blog, categoryType, customer, job, materials, metals, page, process, refiningStep, faq, author, ...singletons];

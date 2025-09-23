@@ -32,11 +32,20 @@ export const process = defineType({
       name: "startingWeight",
       type: "number",
       title: "Starting Weight",
-      description: "The weight of materials at the start of this process (in pounds)",
+      description: "The weight of materials at the start of this process (in grams",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => 
         Rule.required().error("Starting weight is required")
         .min(0).error("Starting weight must be a positive number"),
+    }),
+    defineField({
+      name: "yieldWeight",
+      type: "number",
+      title: "Yield Weight",
+      description: "The weight of materials produced at the end of this process (in grams)",
+      group: GROUP.MAIN_CONTENT,
+      validation: (Rule) => 
+        Rule.min(0).error("Yield weight must be a positive number"),
     }),
     defineField({
       name: "timeRecords",
@@ -90,8 +99,140 @@ export const process = defineType({
       group: GROUP.MAIN_CONTENT,
       of: [
         defineArrayMember({
-          type: "reference",
-          to: [{ type: "materialUsage" }],
+          type: "object",
+          name: "materialUsage",
+          title: "Material Usage",
+          fields: [
+            defineField({
+              name: "material",
+              type: "reference",
+              title: "Material",
+              description: "The material being used",
+              to: [{ type: "materials" }],
+              validation: (Rule) => Rule.required().error("Material reference is required"),
+            }),
+            defineField({
+              name: "quantityUsed",
+              type: "object",
+              title: "Quantity Used",
+              description: "Amount of material used in this specific process",
+              fields: [
+                defineField({
+                  name: "amount",
+                  type: "number",
+                  title: "Amount",
+                  description: "Quantity of material used",
+                  validation: (Rule) => 
+                    Rule.required().error("Amount is required")
+                    .min(0).error("Amount must be a positive number"),
+                }),
+                defineField({
+                  name: "unit",
+                  type: "string",
+                  title: "Unit of Measurement",
+                  description: "Unit for the quantity used",
+                  options: {
+                    list: [
+                      { title: "Pounds (lbs)", value: "lbs" },
+                      { title: "Kilograms (kg)", value: "kg" },
+                      { title: "Grams (g)", value: "g" },
+                      { title: "Ounces (oz)", value: "oz" },
+                      { title: "Liters (L)", value: "L" },
+                      { title: "Milliliters (mL)", value: "mL" },
+                      { title: "Gallons (gal)", value: "gal" },
+                      { title: "Cubic Feet (ft³)", value: "ft3" },
+                      { title: "Cubic Meters (m³)", value: "m3" },
+                      { title: "Pieces", value: "pieces" },
+                      { title: "Units", value: "units" },
+                    ],
+                    layout: "radio",
+                  },
+                  validation: (Rule) => Rule.required().error("Unit is required"),
+                }),
+              ],
+              options: {
+                columns: 2,
+              },
+            }),
+            defineField({
+              name: "costDetails",
+              type: "object",
+              title: "Cost Details",
+              description: "Cost information for this specific usage",
+              fields: [
+                defineField({
+                  name: "unitCost",
+                  type: "number",
+                  title: "Unit Cost",
+                  description: "Cost per unit for this usage (in dollars)",
+                  validation: (Rule) => 
+                    Rule.required().error("Unit cost is required")
+                    .min(0).error("Unit cost must be a positive number"),
+                }),
+                defineField({
+                  name: "totalCost",
+                  type: "string",
+                  title: "Total Cost",
+                  description: "Total cost for this usage (calculated automatically as amount × unit cost)",
+                  readOnly: true,
+                }),
+                defineField({
+                  name: "currency",
+                  type: "string",
+                  title: "Currency",
+                  description: "Currency for the cost",
+                  options: {
+                    list: [
+                      { title: "Canadian Dollar (C$)", value: "CAD" },
+                    ],
+                    layout: "radio",
+                  },
+                  initialValue: "CAD",
+                  validation: (Rule) => Rule.required().error("Currency is required"),
+                }),
+              ],
+              options: {
+                columns: 2,
+              },
+            }),
+            defineField({
+              name: "dateUsed",
+              type: "date",
+              title: "Date Used",
+              description: "When this material was used in the process",
+              initialValue: () => new Date().toISOString().split("T")[0],
+              validation: (Rule) => Rule.required().error("Date used is required"),
+            }),
+            defineField({
+              name: "notes",
+              type: "text",
+              title: "Usage Notes",
+              description: "Additional notes about how this material was used",
+              rows: 3,
+            }),
+          ],
+          preview: {
+            select: {
+              materialName: "material.name",
+              amount: "quantityUsed.amount",
+              unit: "quantityUsed.unit",
+              unitCost: "costDetails.unitCost",
+              currency: "costDetails.currency",
+              dateUsed: "dateUsed",
+            },
+            prepare: ({ materialName, amount, unit, unitCost, currency, dateUsed }) => {
+              const quantityInfo = amount && unit ? `${amount} ${unit}` : "";
+              // Calculate total cost from amount and unit cost
+              const totalCost = amount && unitCost ? (amount * unitCost).toFixed(2) : "";
+              const costInfo = totalCost && currency ? ` • C$${totalCost} ${currency}` : "";
+              const dateInfo = dateUsed ? ` • ${new Date(dateUsed).toLocaleDateString()}` : "";
+
+              return {
+                title: materialName || "Unknown Material",
+                subtitle: `${quantityInfo}${costInfo}${dateInfo}`,
+              };
+            },
+          },
         }),
       ],
     }),
@@ -115,11 +256,12 @@ export const process = defineType({
     select: {
       name: "name",
       startingWeight: "startingWeight",
+      yieldWeight: "yieldWeight",
       timeRecords: "timeRecords",
       dateCreated: "dateCreated",
       dateCompleted: "dateCompleted",
     },
-    prepare: ({ name, startingWeight, timeRecords, dateCreated, dateCompleted }) => {
+    prepare: ({ name, startingWeight, yieldWeight, timeRecords, dateCreated, dateCompleted }) => {
       // Calculate total time from timeRecords
       let totalMinutes = 0;
       if (timeRecords && Array.isArray(timeRecords)) {
@@ -137,7 +279,8 @@ export const process = defineType({
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
       const timeInfo = totalMinutes > 0 ? ` • ${hours}h ${minutes}m` : "";
-      const weightInfo = startingWeight ? ` • ${startingWeight} lbs` : "";
+      const weightInfo = startingWeight ? ` • ${startingWeight} g` : "";
+      const yieldInfo = yieldWeight ? ` • Yield: ${yieldWeight} g` : "";
       const statusInfo = dateCompleted ? " • Completed" : " • In Progress";
       const dateInfo = dateCompleted 
         ? ` • ${new Date(dateCompleted).toLocaleDateString()}` 
@@ -145,7 +288,7 @@ export const process = defineType({
 
       return {
         title: name || "Unnamed Process",
-        subtitle: `${timeInfo}${weightInfo}${statusInfo}${dateInfo}`,
+        subtitle: `${timeInfo}${weightInfo}${yieldInfo}${statusInfo}${dateInfo}`,
       };
     },
   },
