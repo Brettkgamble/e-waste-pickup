@@ -112,13 +112,10 @@ const dominantColorSeoImageRender = ({
             {image ? (
               <img
                 src={image}
-                tw="w-full h-full rounded-3xl shadow-2xl"
+                tw="w-full h-full rounded-3xl shadow-2xl object-cover"
                 width={566}
                 height={566}
                 alt="Content preview"
-                style={{
-                  objectFit: "cover",
-                }}
               />
             ) : logo ? (
               <div tw="flex items-center justify-center h-full w-full">

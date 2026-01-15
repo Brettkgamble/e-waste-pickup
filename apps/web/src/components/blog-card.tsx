@@ -26,8 +26,7 @@ function BlogImage({ image, title }: BlogImageProps) {
         priority={false}
         loading="lazy"
         quality={80}
-        objectFit="cover"
-        className="rounded-2xl"
+        className="rounded-2xl object-cover"
       />
     </div>
   );
