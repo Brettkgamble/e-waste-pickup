@@ -29,6 +29,8 @@ const fontMono = Geist_Mono({
   display: "optional",
 });
 
+const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -46,7 +48,9 @@ export default async function RootLayout({
             <NavbarServer />
           </Suspense>
           {children}
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""} />
+          {isProduction && (
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""} />
+          )}
           <Suspense fallback={<FooterSkeleton />}>
             <FooterServer />
           </Suspense>
