@@ -23,19 +23,40 @@ export default async function BlogCategoriesPage() {
   const [res, err] = await fetchBlogPosts();
   if (err || !res?.data) notFound();
 
-  const { blogs = [] }: { blogs: Blog[] } = res.data;
+  const blogs = res.data.blogs ?? [];
 
-  // Ensure categories is never null and name/slug are non-null strings
-  const normalizedBlogs = blogs.map((blog) => ({
-    ...blog,
-    categories: (blog.categories ?? [])
-      .filter((cat) => cat && cat.name && cat.slug)
-      .map((cat) => ({
-        ...cat,
-        name: cat.name ?? "",
-        slug: cat.slug ?? "",
-      })),
-  }));
+  // Normalize nullable query results into Blog-shaped data
+  const normalizedBlogs: Blog[] = blogs.map((blog: any) => {
+    const authors = Array.isArray(blog.authors)
+      ? blog.authors
+      : blog.authors
+        ? [blog.authors]
+        : undefined;
+
+    const categories = (blog.categories ?? [])
+      .filter((cat: any) => cat && cat.name)
+      .map((cat: any) => {
+        const slugValue =
+          cat.slug && typeof cat.slug === "object"
+            ? cat.slug.current
+            : cat.slug;
+        return {
+          ...cat,
+          name: cat.name ?? "",
+          slug: slugValue ?? "",
+        };
+      });
+
+    return {
+      ...blog,
+      title: blog.title ?? "",
+      slug: blog.slug ?? "",
+      description: blog.description ?? null,
+      image: blog.image ?? undefined,
+      authors,
+      categories,
+    };
+  });
 
   return (
     <main className="bg-background">

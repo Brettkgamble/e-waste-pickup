@@ -67,8 +67,40 @@ export default async function BlogIndexPage() {
     );
   }
 
+  const normalizedBlogs: Blog[] = blogs.map((blog: any) => {
+    const authors = Array.isArray(blog.authors)
+      ? blog.authors
+      : blog.authors
+        ? [blog.authors]
+        : undefined;
+
+    const categories = (blog.categories ?? [])
+      .filter((cat: any) => cat && cat.name)
+      .map((cat: any) => {
+        const slugValue =
+          cat.slug && typeof cat.slug === "object"
+            ? cat.slug.current
+            : cat.slug;
+        return {
+          ...cat,
+          name: cat.name ?? "",
+          slug: slugValue ?? "",
+        };
+      });
+
+    return {
+      ...blog,
+      title: blog.title ?? "",
+      slug: blog.slug ?? "",
+      description: blog.description ?? null,
+      image: blog.image ?? undefined,
+      authors,
+      categories,
+    };
+  });
+
   // Sort blogs by publishedAt date (most recent first)
-  const sortedBlogs = [...blogs].sort((a, b) => {
+  const sortedBlogs = [...normalizedBlogs].sort((a, b) => {
     const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
     const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
     return dateB - dateA; // Most recent first
@@ -85,16 +117,7 @@ export default async function BlogIndexPage() {
     : sortedBlogs;
 
   // Ensure categories is never null and name/slug are non-null strings
-  const normalizedBlogs = sortedBlogs.map((blog: Blog) => ({
-    ...blog,
-    categories: (blog.categories ?? [])
-      .filter((cat: BlogCategory) => cat && cat.name && cat.slug)
-      .map((cat: BlogCategory) => ({
-        ...cat,
-        name: cat.name ?? "",
-        slug: cat.slug ?? "",
-      })),
-  }));
+  // (already normalized above)
 
   return (
     <main className="bg-background">
