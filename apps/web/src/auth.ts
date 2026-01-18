@@ -1,18 +1,18 @@
 // https://www.youtube.com/watch?v=n-fVrzaikBQ
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GitHub from "next-auth/providers/github";
+import { getServerSession } from "next-auth/next";
 
-const nextAuthResult = NextAuth({
-  providers: [GitHub],
-});
+export const authOptions: NextAuthOptions = {
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+  ],
+};
 
-export const auth: ReturnType<typeof NextAuth>["auth"] = nextAuthResult.auth;
+export const auth = () => getServerSession(authOptions);
 
-export const handlers: ReturnType<typeof NextAuth>["handlers"] =
-  nextAuthResult.handlers;
-
-export const signIn: ReturnType<typeof NextAuth>["signIn"] =
-  nextAuthResult.signIn;
-
-export const signOut: ReturnType<typeof NextAuth>["signOut"] =
-  nextAuthResult.signOut;
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

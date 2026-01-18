@@ -1,11 +1,11 @@
-"use server";
+"use client";
 
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut } from "next-auth/react";
 
-export const login = async () => {
-  await signIn("github", { redirectTo: "/admin/dashboard" });
+export const login = async (callbackUrl = "/admin/dashboard") => {
+  await signIn("github", { callbackUrl });
 };
 
 export const logout = async () => {
-  await signOut({ redirectTo: "/" });
+  await signOut({ callbackUrl: "/" });
 };
