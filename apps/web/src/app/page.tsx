@@ -26,6 +26,7 @@ export async function generateMetadata() {
   );
 }
 
+// Miscelaneous Page
 export default async function Page() {
   const { data: homePageData } = await fetchHomePageData();
 
