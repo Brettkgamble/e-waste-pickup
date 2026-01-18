@@ -9,7 +9,7 @@ async function fetchHomePageData(stega = true) {
     stega,
   });
 }
-
+//comment
 export async function generateMetadata() {
   const { data: homePageData } = await fetchHomePageData(false);
   return getSEOMetadata(
