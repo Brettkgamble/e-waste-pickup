@@ -14,5 +14,16 @@ export default defineCliConfig({
     host && host !== "main"
       ? `${host}-${productionHostName}`
       : productionHostName,
-  autoUpdates: false,
+  deployment: {
+    /**
+    * Get the appId for a previously deployed Studio under the "Studio" tab for your project in sanity.io/manage
+    * Note: this is required for fine-grained version selection
+    */
+    appId: projectId,
+    /**
+     * Enable auto-updates.
+     * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity
+     */
+    autoUpdates: true,
+  }
 });
