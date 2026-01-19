@@ -6,6 +6,10 @@ import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { BlogCategoryList } from "@/components/blog-category-list";
 import { PageBuilder } from "@/components/pagebuilder";
 import { sanityFetch } from "@/lib/sanity/live";
+import {
+  normalizeBlogCategories,
+  type RawCategory,
+} from "@/lib/sanity/normalize-categories";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
@@ -86,19 +90,7 @@ export default async function BlogIndexPage() {
         ? [blog.authors]
         : undefined;
 
-    const categories = (blog.categories ?? [])
-      .filter((cat: any) => cat && cat.name)
-      .map((cat: any) => {
-        const slugValue =
-          cat.slug && typeof cat.slug === "object"
-            ? cat.slug.current
-            : cat.slug;
-        return {
-          ...cat,
-          name: cat.name ?? "",
-          slug: slugValue ?? "",
-        };
-      });
+    const categories = normalizeBlogCategories(blog.categories ?? []);
 
     return {
       ...blog,
@@ -131,26 +123,9 @@ export default async function BlogIndexPage() {
   // Ensure categories is never null and name/slug are non-null strings
   // (already normalized above)
 
-  const normalizedCategories = (categories ?? [])
-    .filter((category: any) => category && category.name)
-    .map((category: any) => ({
-      ...category,
-      name: category.name ?? "",
-      slug:
-        category.slug && typeof category.slug === "object"
-          ? category.slug.current
-          : category.slug ?? "",
-      subCategories: (category.subCategories ?? [])
-        .filter((subcategory: any) => subcategory && subcategory.name)
-        .map((subcategory: any) => ({
-          ...subcategory,
-          name: subcategory.name ?? "",
-          slug:
-            subcategory.slug && typeof subcategory.slug === "object"
-              ? subcategory.slug.current
-              : subcategory.slug ?? "",
-        })),
-    }));
+  const normalizedCategories = normalizeBlogCategories(
+    categories as RawCategory[],
+  );
 
   return (
     <main className="bg-background">

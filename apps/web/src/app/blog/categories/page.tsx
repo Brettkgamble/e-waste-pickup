@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { BlogCategoryList } from "@/components/blog-category-list";
 import { sanityFetch } from "@/lib/sanity/live";
+import {
+  normalizeBlogCategories,
+  type RawCategory,
+} from "@/lib/sanity/normalize-categories";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
@@ -42,19 +46,7 @@ export default async function BlogCategoriesPage() {
         ? [blog.authors]
         : undefined;
 
-    const categories = (blog.categories ?? [])
-      .filter((cat: any) => cat && cat.name)
-      .map((cat: any) => {
-        const slugValue =
-          cat.slug && typeof cat.slug === "object"
-            ? cat.slug.current
-            : cat.slug;
-        return {
-          ...cat,
-          name: cat.name ?? "",
-          slug: slugValue ?? "",
-        };
-      });
+    const categories = normalizeBlogCategories(blog.categories ?? []);
 
     return {
       ...blog,
@@ -67,12 +59,16 @@ export default async function BlogCategoriesPage() {
     };
   });
 
+  const normalizedCategories = normalizeBlogCategories(
+    categoriesData as RawCategory[],
+  );
+
   return (
     <main className="bg-background">
       <div className="container my-16 mx-auto px-4 md:px-6">
         <BlogCategoryList
           blogs={normalizedBlogs}
-          categories={categoriesData}
+          categories={normalizedCategories}
           title="Browse by Category"
           description="Click on a category to expand and view all posts"
         />

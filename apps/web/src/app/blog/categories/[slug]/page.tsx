@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { BlogCard } from "@/components/blog-card";
 import { sanityFetch } from "@/lib/sanity/live";
+import {
+  normalizeBlogCategories,
+  type RawCategory,
+} from "@/lib/sanity/normalize-categories";
 import { BLOGS_BY_CATEGORY_QUERY, CATEGORIES_QUERY } from "@/lib/sanity/query";
 import type { Blog, BlogCategory } from "@/types/blog";
 
@@ -18,23 +22,8 @@ export default async function CategoryDetailPage(props: any) {
     query: CATEGORIES_QUERY,
     params: { includeProcesses },
   });
-  const typedCategories = categories as BlogCategory[];
-  const normalizedCategories = typedCategories.map((cat) => {
-    const slugValue =
-      typeof cat.slug === "object" ? cat.slug?.current : cat.slug;
-    const subCategories = (cat.subCategories ?? []).map((subcategory) => ({
-      ...subcategory,
-      slug:
-        typeof subcategory.slug === "object"
-          ? subcategory.slug?.current
-          : subcategory.slug,
-    }));
-    return {
-      ...cat,
-      slug: slugValue ?? "",
-      subCategories,
-    };
-  });
+  const typedCategories = categories as RawCategory[];
+  const normalizedCategories = normalizeBlogCategories(typedCategories);
   const category = normalizedCategories.find((cat) => cat.slug === slug);
 
   if (!category) notFound();
