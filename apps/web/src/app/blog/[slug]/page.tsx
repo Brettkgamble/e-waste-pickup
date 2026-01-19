@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { stegaClean } from "next-sanity";
 
+import { auth } from "@/auth";
 import { ArticleJsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/richtext";
 import { SanityImage } from "@/components/sanity-image";
@@ -10,10 +11,14 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogPaths, queryBlogSlugPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
-async function fetchBlogSlugPageData(slug: string, stega = true) {
+async function fetchBlogSlugPageData(
+  slug: string,
+  includeProcesses: boolean,
+  stega = true,
+) {
   return await sanityFetch({
     query: queryBlogSlugPageData,
-    params: { slug: `/blog/${slug}` },
+    params: { slug: `/blog/${slug}`, includeProcesses },
     stega,
   });
 }
@@ -35,7 +40,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data } = await fetchBlogSlugPageData(slug, false);
+  const session = await auth();
+  const includeProcesses = Boolean(session);
+  const { data } = await fetchBlogSlugPageData(slug, includeProcesses, false);
   return getSEOMetadata(
     data
       ? {
@@ -60,7 +67,9 @@ export default async function BlogSlugPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data } = await fetchBlogSlugPageData(slug);
+  const session = await auth();
+  const includeProcesses = Boolean(session);
+  const { data } = await fetchBlogSlugPageData(slug, includeProcesses);
   if (!data) return notFound();
   const { title, description, image, richText } = data ?? {};
 

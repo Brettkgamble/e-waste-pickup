@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@/auth";
 
-const protectedRoutes = ["/admin"];
+const protectedRoutes = ["/admin", "/blog/categories/processes"];
 export default async function proxy(request: NextRequest) {
   const session = await auth();
 

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { BlogCategoryList } from "@/components/blog-category-list";
 import { PageBuilder } from "@/components/pagebuilder";
@@ -10,13 +11,21 @@ import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
 import type { Blog, BlogCategory } from "@/types/blog";
 
-async function fetchBlogPosts() {
-  return await handleErrors(sanityFetch({ query: queryBlogIndexPageData }));
+async function fetchBlogPosts(includeProcesses: boolean) {
+  return await handleErrors(
+    sanityFetch({
+      query: queryBlogIndexPageData,
+      params: { includeProcesses },
+    }),
+  );
 }
 
 export async function generateMetadata() {
+  const session = await auth();
+  const includeProcesses = Boolean(session);
   const { data: result } = await sanityFetch({
     query: queryBlogIndexPageData,
+    params: { includeProcesses },
     stega: false,
   });
   return getSEOMetadata(
@@ -33,7 +42,9 @@ export async function generateMetadata() {
 }
 
 export default async function BlogIndexPage() {
-  const [res, err] = await fetchBlogPosts();
+  const session = await auth();
+  const includeProcesses = Boolean(session);
+  const [res, err] = await fetchBlogPosts(includeProcesses);
   if (err || !res?.data) notFound();
 
   const {

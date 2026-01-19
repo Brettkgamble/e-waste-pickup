@@ -233,14 +233,28 @@ export const queryBlogIndexPageData = defineQuery(`
     "featuredBlogsCount" : featuredBlogsCount,
     ${pageBuilderFragment},
     "slug": slug.current,
-    "blogs": *[_type == "blog" && (seoHideFromLists != true)] | order(orderRank asc){
+    "blogs": *[
+      _type == "blog" &&
+      (seoHideFromLists != true) &&
+      (
+        $includeProcesses == true ||
+        !("processes" in categories[]->slug.current)
+      )
+    ] | order(orderRank asc){
       ${blogCardFragment}
     }
   }
 `);
 
 export const queryBlogSlugPageData = defineQuery(`
-  *[_type == "blog" && slug.current == $slug][0]{
+  *[
+    _type == "blog" &&
+    slug.current == $slug &&
+    (
+      $includeProcesses == true ||
+      !("processes" in categories[]->slug.current)
+    )
+  ][0]{
     ...,
     "slug": slug.current,
     ${blogAuthorFragment},
@@ -404,7 +418,11 @@ export const querySettingsData = defineQuery(`
 `);
 
 export const CATEGORIES_QUERY = defineQuery(`*[
-  _type == "category"
+  _type == "category" &&
+  (
+    $includeProcesses == true ||
+    slug.current != "processes"
+  )
 ]{
   _id,
   name,
@@ -415,7 +433,11 @@ export const CATEGORIES_QUERY = defineQuery(`*[
 
 export const BLOGS_BY_CATEGORY_QUERY = defineQuery(`*[
   _type == "blog" &&
-  references($categoryId)
+  references($categoryId) &&
+  (
+    $includeProcesses == true ||
+    !("processes" in categories[]->slug.current)
+  )
 ] | order(publishedAt desc){
   _type,
   _id,

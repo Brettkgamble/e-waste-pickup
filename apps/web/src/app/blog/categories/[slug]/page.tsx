@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import { BlogCard } from "@/components/blog-card";
 import { sanityFetch } from "@/lib/sanity/live";
 import { BLOGS_BY_CATEGORY_QUERY, CATEGORIES_QUERY } from "@/lib/sanity/query";
@@ -8,9 +9,14 @@ import type { Blog, BlogCategory } from "@/types/blog";
 export default async function CategoryDetailPage(props: any) {
   const params = await props.params;
   const { slug } = params;
+  const session = await auth();
+  const includeProcesses = Boolean(session);
 
   // Fetch all categories and find the one matching the slug
-  const { data: categories } = await sanityFetch({ query: CATEGORIES_QUERY });
+  const { data: categories } = await sanityFetch({
+    query: CATEGORIES_QUERY,
+    params: { includeProcesses },
+  });
   const typedCategories = categories as BlogCategory[];
   const category = typedCategories.find(
     (cat) =>
@@ -22,7 +28,7 @@ export default async function CategoryDetailPage(props: any) {
   // Fetch blogs for this category
   const { data: blogs } = await sanityFetch({
     query: BLOGS_BY_CATEGORY_QUERY,
-    params: { categoryId: category._id },
+    params: { categoryId: category._id, includeProcesses },
   });
   const typedBlogs = blogs as Blog[];
 

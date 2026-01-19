@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import { BlogCategoryList } from "@/components/blog-category-list";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
@@ -7,8 +8,13 @@ import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
 import type { Blog } from "@/types/blog";
 
-async function fetchBlogPosts() {
-  return await handleErrors(sanityFetch({ query: queryBlogIndexPageData }));
+async function fetchBlogPosts(includeProcesses: boolean) {
+  return await handleErrors(
+    sanityFetch({
+      query: queryBlogIndexPageData,
+      params: { includeProcesses },
+    }),
+  );
 }
 
 export async function generateMetadata() {
@@ -20,7 +26,9 @@ export async function generateMetadata() {
 }
 
 export default async function BlogCategoriesPage() {
-  const [res, err] = await fetchBlogPosts();
+  const session = await auth();
+  const includeProcesses = Boolean(session);
+  const [res, err] = await fetchBlogPosts(includeProcesses);
   if (err || !res?.data) notFound();
 
   const blogs = res.data.blogs ?? [];
