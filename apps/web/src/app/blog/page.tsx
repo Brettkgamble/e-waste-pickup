@@ -9,7 +9,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 import { handleErrors } from "@/utils";
-import type { Blog, BlogCategory } from "@/types/blog";
+import type { Blog } from "@/types/blog";
 
 async function fetchBlogPosts(includeProcesses: boolean) {
   return await handleErrors(
@@ -49,6 +49,7 @@ export default async function BlogIndexPage() {
 
   const {
     blogs = [],
+    categories = [],
     title,
     description,
     pageBuilder = [],
@@ -130,6 +131,27 @@ export default async function BlogIndexPage() {
   // Ensure categories is never null and name/slug are non-null strings
   // (already normalized above)
 
+  const normalizedCategories = (categories ?? [])
+    .filter((category: any) => category && category.name)
+    .map((category: any) => ({
+      ...category,
+      name: category.name ?? "",
+      slug:
+        category.slug && typeof category.slug === "object"
+          ? category.slug.current
+          : category.slug ?? "",
+      subCategories: (category.subCategories ?? [])
+        .filter((subcategory: any) => subcategory && subcategory.name)
+        .map((subcategory: any) => ({
+          ...subcategory,
+          name: subcategory.name ?? "",
+          slug:
+            subcategory.slug && typeof subcategory.slug === "object"
+              ? subcategory.slug.current
+              : subcategory.slug ?? "",
+        })),
+    }));
+
   return (
     <main className="bg-background">
       <div className="container my-16 mx-auto px-4 md:px-6">
@@ -151,6 +173,7 @@ export default async function BlogIndexPage() {
         )}
         <BlogCategoryList
           blogs={normalizedBlogs}
+          categories={normalizedCategories}
           title="Browse by Category"
           description="Explore our blog posts organized by topic"
         />

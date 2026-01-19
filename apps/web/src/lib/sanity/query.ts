@@ -46,6 +46,19 @@ const blogAuthorFragment = /* groq */ `
   }
 `;
 
+const categoryFragment = /* groq */ `
+  _id,
+  name,
+  "slug": slug.current,
+  "subCategories": subCategories[
+    $includeProcesses == true || slug.current != "processes"
+  ]->{
+    _id,
+    name,
+    "slug": slug.current
+  }
+`;
+
 const blogCardFragment = /* groq */ `
   _type,
   _id,
@@ -233,6 +246,15 @@ export const queryBlogIndexPageData = defineQuery(`
     "featuredBlogsCount" : featuredBlogsCount,
     ${pageBuilderFragment},
     "slug": slug.current,
+    "categories": *[
+      _type == "category" &&
+      (
+        $includeProcesses == true ||
+        slug.current != "processes"
+      )
+    ]{
+      ${categoryFragment}
+    },
     "blogs": *[
       _type == "blog" &&
       (seoHideFromLists != true) &&
@@ -424,9 +446,7 @@ export const CATEGORIES_QUERY = defineQuery(`*[
     slug.current != "processes"
   )
 ]{
-  _id,
-  name,
-  slug,
+  ${categoryFragment},
   description,
   "postCount": count(*[_type == "blog" && references(^._id)])
 }`);

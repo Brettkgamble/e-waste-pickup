@@ -32,6 +32,7 @@ export default async function BlogCategoriesPage() {
   if (err || !res?.data) notFound();
 
   const blogs = res.data.blogs ?? [];
+  const categoriesData = res.data.categories ?? [];
 
   // Normalize nullable query results into Blog-shaped data
   const normalizedBlogs: Blog[] = blogs.map((blog: any) => {
@@ -71,6 +72,7 @@ export default async function BlogCategoriesPage() {
       <div className="container my-16 mx-auto px-4 md:px-6">
         <BlogCategoryList
           blogs={normalizedBlogs}
+          categories={categoriesData}
           title="Browse by Category"
           description="Click on a category to expand and view all posts"
         />

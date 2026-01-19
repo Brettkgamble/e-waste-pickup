@@ -79,8 +79,15 @@ export const blog = defineType({
     }),
     defineField({
       name: "categories",
+      description: "Choose the category or sub-category for this blog post",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "category" }] }],
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "category" }],
+        }),
+      ],
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "authors",

@@ -2,6 +2,7 @@ export type BlogCategory = {
   _id: string;
   name: string;
   slug: string | { current: string };
+  subCategories?: BlogCategory[];
 };
 
 export type Blog = {
