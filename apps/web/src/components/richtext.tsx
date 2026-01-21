@@ -95,8 +95,68 @@ const components: Partial<PortableTextReactComponents> = {
         />
       </div>
     ),
+    table: ({ value }) => {
+      const rows = value?.rows ?? [];
+      if (!rows.length) return null;
+
+      const hasHeaderRow = value?.headerRow === "yes";
+      const [headerRow, ...bodyRows] = rows;
+      const tableBodyRows = hasHeaderRow ? bodyRows : rows;
+
+      const renderCellContent = (cell: any) => (
+        <PortableText
+          value={cell.content ?? []}
+          components={tableCellComponents}
+        />
+      );
+
+      return (
+        <div className="my-6 overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm">
+            {hasHeaderRow && headerRow && (
+              <thead>
+                <tr className="border-b bg-muted/30">
+                  {(headerRow.cells ?? []).map((cell: any, cellIndex: number) => (
+                    <th
+                      key={cell._key ?? `header-${cellIndex}`}
+                      scope="col"
+                      className="align-top border-b border-r p-3 text-left font-semibold last:border-r-0"
+                    >
+                      {renderCellContent(cell)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            {tableBodyRows.length > 0 && (
+              <tbody>
+                {tableBodyRows.map((row: any, rowIndex: number) => (
+                  <tr key={row._key ?? rowIndex} className="border-b">
+                    {(row.cells ?? []).map((cell: any, cellIndex: number) => (
+                      <td
+                        key={cell._key ?? `${rowIndex}-${cellIndex}`}
+                        className="align-top border-b border-r p-3 last:border-r-0"
+                      >
+                        {renderCellContent(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            )}
+          </table>
+        </div>
+      );
+    },
   },
   hardBreak: () => <br />,
+};
+
+const tableCellComponents: Partial<PortableTextReactComponents> = {
+  ...components,
+  types: {
+    image: components.types?.image,
+  },
 };
 
 export function RichText<T>({

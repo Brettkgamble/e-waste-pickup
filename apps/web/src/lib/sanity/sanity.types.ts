@@ -261,6 +261,36 @@ export type Button = {
   url?: CustomUrl;
 };
 
+export type Table = {
+  _type: "table";
+  rows?: Array<{
+    cells?: Array<{
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal";
+        listItem?: never;
+        markDefs?: Array<{
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      _type: "cell";
+      _key: string;
+    }>;
+    _type: "row";
+    _key: string;
+  }>;
+};
+
 export type RichText = Array<
   | {
       children?: Array<{
@@ -280,6 +310,9 @@ export type RichText = Array<
       _type: "block";
       _key: string;
     }
+  | ({
+      _key: string;
+    } & Table)
   | {
       asset?: SanityImageAssetReference;
       media?: unknown;
@@ -1142,6 +1175,7 @@ export type AllSanitySchemaTypes =
   | TimeRecord
   | PageBuilder
   | Button
+  | Table
   | RichText
   | BlogIndexReference
   | PageReference
@@ -1287,6 +1321,37 @@ export type QueryHomePageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         buttons: Array<{
           text: string | null;
@@ -1350,6 +1415,37 @@ export type QueryHomePageDataResult = {
                 caption?: string;
                 _type: "image";
                 _key: string;
+                markDefs: null;
+              }
+            | {
+                _key: string;
+                _type: "table";
+                rows?: Array<{
+                  cells?: Array<{
+                    content?: Array<{
+                      children?: Array<{
+                        marks?: Array<string>;
+                        text?: string;
+                        _type: "span";
+                        _key: string;
+                      }>;
+                      style?: "normal";
+                      listItem?: never;
+                      markDefs?: Array<{
+                        customLink?: CustomUrl;
+                        _type: "customLink";
+                        _key: string;
+                      }>;
+                      level?: number;
+                      _type: "block";
+                      _key: string;
+                    }>;
+                    _type: "cell";
+                    _key: string;
+                  }>;
+                  _type: "row";
+                  _key: string;
+                }>;
                 markDefs: null;
               }
           > | null;
@@ -1540,6 +1636,37 @@ export type QueryHomePageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         image:
           | {
@@ -1610,6 +1737,37 @@ export type QueryHomePageDataResult = {
               caption?: string;
               _type: "image";
               _key: string;
+              markDefs: null;
+            }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
               markDefs: null;
             }
         > | null;
@@ -1780,6 +1938,37 @@ export type QuerySlugPageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         buttons: Array<{
           text: string | null;
@@ -1843,6 +2032,37 @@ export type QuerySlugPageDataResult = {
                 caption?: string;
                 _type: "image";
                 _key: string;
+                markDefs: null;
+              }
+            | {
+                _key: string;
+                _type: "table";
+                rows?: Array<{
+                  cells?: Array<{
+                    content?: Array<{
+                      children?: Array<{
+                        marks?: Array<string>;
+                        text?: string;
+                        _type: "span";
+                        _key: string;
+                      }>;
+                      style?: "normal";
+                      listItem?: never;
+                      markDefs?: Array<{
+                        customLink?: CustomUrl;
+                        _type: "customLink";
+                        _key: string;
+                      }>;
+                      level?: number;
+                      _type: "block";
+                      _key: string;
+                    }>;
+                    _type: "cell";
+                    _key: string;
+                  }>;
+                  _type: "row";
+                  _key: string;
+                }>;
                 markDefs: null;
               }
           > | null;
@@ -2033,6 +2253,37 @@ export type QuerySlugPageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         image:
           | {
@@ -2103,6 +2354,37 @@ export type QuerySlugPageDataResult = {
               caption?: string;
               _type: "image";
               _key: string;
+              markDefs: null;
+            }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
               markDefs: null;
             }
         > | null;
@@ -2274,6 +2556,37 @@ export type QueryBlogIndexPageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         buttons: Array<{
           text: string | null;
@@ -2337,6 +2650,37 @@ export type QueryBlogIndexPageDataResult = {
                 caption?: string;
                 _type: "image";
                 _key: string;
+                markDefs: null;
+              }
+            | {
+                _key: string;
+                _type: "table";
+                rows?: Array<{
+                  cells?: Array<{
+                    content?: Array<{
+                      children?: Array<{
+                        marks?: Array<string>;
+                        text?: string;
+                        _type: "span";
+                        _key: string;
+                      }>;
+                      style?: "normal";
+                      listItem?: never;
+                      markDefs?: Array<{
+                        customLink?: CustomUrl;
+                        _type: "customLink";
+                        _key: string;
+                      }>;
+                      level?: number;
+                      _type: "block";
+                      _key: string;
+                    }>;
+                    _type: "cell";
+                    _key: string;
+                  }>;
+                  _type: "row";
+                  _key: string;
+                }>;
                 markDefs: null;
               }
           > | null;
@@ -2527,6 +2871,37 @@ export type QueryBlogIndexPageDataResult = {
               _key: string;
               markDefs: null;
             }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
+              markDefs: null;
+            }
         > | null;
         image:
           | {
@@ -2597,6 +2972,37 @@ export type QueryBlogIndexPageDataResult = {
               caption?: string;
               _type: "image";
               _key: string;
+              markDefs: null;
+            }
+          | {
+              _key: string;
+              _type: "table";
+              rows?: Array<{
+                cells?: Array<{
+                  content?: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: never;
+                    markDefs?: Array<{
+                      customLink?: CustomUrl;
+                      _type: "customLink";
+                      _key: string;
+                    }>;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }>;
+                  _type: "cell";
+                  _key: string;
+                }>;
+                _type: "row";
+                _key: string;
+              }>;
               markDefs: null;
             }
         > | null;
@@ -2870,6 +3276,37 @@ export type QueryBlogSlugPageDataResult = {
         caption?: string;
         _type: "image";
         _key: string;
+        markDefs: null;
+      }
+    | {
+        _key: string;
+        _type: "table";
+        rows?: Array<{
+          cells?: Array<{
+            content?: Array<{
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: never;
+              markDefs?: Array<{
+                customLink?: CustomUrl;
+                _type: "customLink";
+                _key: string;
+              }>;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }>;
+            _type: "cell";
+            _key: string;
+          }>;
+          _type: "row";
+          _key: string;
+        }>;
         markDefs: null;
       }
   > | null;

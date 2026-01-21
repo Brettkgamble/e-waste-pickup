@@ -41,6 +41,11 @@ const richTextMembers = [
     },
   }),
   defineArrayMember({
+    name: "table",
+    title: "Table",
+    type: "table",
+  }),
+  defineArrayMember({
     name: "image",
     title: "Image",
     type: "image",
