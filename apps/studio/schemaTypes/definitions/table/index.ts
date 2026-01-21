@@ -1,6 +1,8 @@
 import { Table as TableIcon } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { TableCellContentInput } from "./table-content-input";
+
 const tableCellText = defineArrayMember({
   name: "block",
   type: "block",
@@ -19,6 +21,12 @@ const tableCellText = defineArrayMember({
           }),
         ],
       },
+      defineField({
+        name: "inlineMath",
+        title: "Inline Math",
+        description: "Insert a math equation inline with the text.",
+        type: "inlineMath",
+      }),
     ],
     decorators: [
       { title: "Strong", value: "strong" },
@@ -69,7 +77,17 @@ export const table = defineType({
                       name: "content",
                       description: "Text content shown inside the table cell",
                       type: "array",
-                      of: [tableCellText],
+                      of: [
+                        tableCellText,
+                        defineArrayMember({
+                          name: "mathBlock",
+                          title: "Math",
+                          type: "mathBlock",
+                        }),
+                      ],
+                      components: {
+                        input: TableCellContentInput,
+                      },
                     }),
                   ],
                   preview: {

@@ -8,6 +8,7 @@ import {
 
 import { parseChildrenToSlug } from "@/utils";
 
+import { BlockMath, InlineMath, MathJaxProvider } from "./mathjax";
 import { SanityImage } from "./sanity-image";
 
 const components: Partial<PortableTextReactComponents> = {
@@ -62,6 +63,11 @@ const components: Partial<PortableTextReactComponents> = {
         {children}
       </code>
     ),
+    inlineMath: ({ value }) => {
+      const tex = typeof value?.tex === "string" ? value.tex.trim() : "";
+      if (!tex) return null;
+      return <InlineMath tex={tex} />;
+    },
     customLink: ({ children, value }) => {
       if (!value.href || value.href === "#") {
         console.warn("🚀 link is not set", value);
@@ -95,6 +101,15 @@ const components: Partial<PortableTextReactComponents> = {
         />
       </div>
     ),
+    mathBlock: ({ value }) => {
+      const tex = typeof value?.tex === "string" ? value.tex.trim() : "";
+      if (!tex) return null;
+      return (
+        <div className="my-4 overflow-x-auto">
+          <BlockMath tex={tex} />
+        </div>
+      );
+    },
     table: ({ value }) => {
       const rows = value?.rows ?? [];
       if (!rows.length) return null;
@@ -156,6 +171,7 @@ const tableCellComponents: Partial<PortableTextReactComponents> = {
   ...components,
   types: {
     image: components.types?.image,
+    mathBlock: components.types?.mathBlock,
   },
 };
 
@@ -175,13 +191,15 @@ export function RichText<T>({
         className,
       )}
     >
-      <PortableText
-        value={richText as unknown as PortableTextBlock[]}
-        components={components}
-        onMissingComponent={(_, { nodeType, type }) =>
-          console.log("missing component", nodeType, type)
-        }
-      />
+      <MathJaxProvider>
+        <PortableText
+          value={richText as unknown as PortableTextBlock[]}
+          components={components}
+          onMissingComponent={(_, { nodeType, type }) =>
+            console.log("missing component", nodeType, type)
+          }
+        />
+      </MathJaxProvider>
     </div>
   );
 }

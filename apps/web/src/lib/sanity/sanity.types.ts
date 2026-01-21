@@ -263,6 +263,7 @@ export type Button = {
 
 export type Table = {
   _type: "table";
+  headerRow?: "yes" | "no";
   rows?: Array<{
     cells?: Array<{
       content?: Array<{
@@ -1324,6 +1325,7 @@ export type QueryHomePageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -1420,6 +1422,7 @@ export type QueryHomePageDataResult = {
             | {
                 _key: string;
                 _type: "table";
+                headerRow?: "no" | "yes";
                 rows?: Array<{
                   cells?: Array<{
                     content?: Array<{
@@ -1639,6 +1642,7 @@ export type QueryHomePageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -1742,6 +1746,7 @@ export type QueryHomePageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -1941,6 +1946,7 @@ export type QuerySlugPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -2037,6 +2043,7 @@ export type QuerySlugPageDataResult = {
             | {
                 _key: string;
                 _type: "table";
+                headerRow?: "no" | "yes";
                 rows?: Array<{
                   cells?: Array<{
                     content?: Array<{
@@ -2256,6 +2263,7 @@ export type QuerySlugPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -2359,6 +2367,7 @@ export type QuerySlugPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -2559,6 +2568,7 @@ export type QueryBlogIndexPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -2655,6 +2665,7 @@ export type QueryBlogIndexPageDataResult = {
             | {
                 _key: string;
                 _type: "table";
+                headerRow?: "no" | "yes";
                 rows?: Array<{
                   cells?: Array<{
                     content?: Array<{
@@ -2874,6 +2885,7 @@ export type QueryBlogIndexPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -2977,6 +2989,7 @@ export type QueryBlogIndexPageDataResult = {
           | {
               _key: string;
               _type: "table";
+              headerRow?: "no" | "yes";
               rows?: Array<{
                 cells?: Array<{
                   content?: Array<{
@@ -3281,6 +3294,7 @@ export type QueryBlogSlugPageDataResult = {
     | {
         _key: string;
         _type: "table";
+        headerRow?: "no" | "yes";
         rows?: Array<{
           cells?: Array<{
             content?: Array<{

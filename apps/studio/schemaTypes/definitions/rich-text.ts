@@ -32,6 +32,12 @@ const richTextMembers = [
             }),
           ],
         },
+        defineField({
+          name: "inlineMath",
+          title: "Inline Math",
+          description: "Insert a math equation inline with the text.",
+          type: "inlineMath",
+        }),
       ],
       decorators: [
         { title: "Strong", value: "strong" },
@@ -44,6 +50,11 @@ const richTextMembers = [
     name: "table",
     title: "Table",
     type: "table",
+  }),
+  defineArrayMember({
+    name: "mathBlock",
+    title: "Math",
+    type: "mathBlock",
   }),
   defineArrayMember({
     name: "image",
