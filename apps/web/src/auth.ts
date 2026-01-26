@@ -15,6 +15,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET ?? "",
     }),
   ],
+  pages: {
+    signOut: "/",
+  },
   callbacks: {
     async redirect({ url, baseUrl }) {
       // If the callback URL is relative, redirect to it after login
@@ -24,9 +27,6 @@ export const authOptions: NextAuthOptions = {
       // Otherwise redirect to the homepage
       return baseUrl;
     },
-  },
-  pages: {
-    signOut: "/",
   },
 };
 
