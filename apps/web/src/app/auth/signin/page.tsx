@@ -64,6 +64,4 @@ export default async function Page({
       <SignInContent callbackUrl={callbackUrl} />
     </Suspense>
   );
-    </div>
-  );
 }
