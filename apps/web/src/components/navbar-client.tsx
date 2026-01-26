@@ -35,6 +35,7 @@ import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
 import { SanityButtons } from "./sanity-buttons";
 import { SanityIcon } from "./sanity-icon";
+import { AuthNavButton } from "./ui/auth-nav-button";
 interface MenuItem {
   title: string;
   description: string;
@@ -177,6 +178,7 @@ function MobileNavbar({
         </div>
 
         <div className="border-t pt-4">
+          <AuthNavButton />
           <SanityButtons
             buttons={buttons ?? []}
             buttonClassName="w-full"
@@ -303,6 +305,7 @@ export function DesktopNavbar({
       </div>
 
       <div className="justify-self-end flex items-center gap-4">
+        <AuthNavButton />
         <ModeToggle />
         <SanityButtons
           buttons={buttons ?? []}

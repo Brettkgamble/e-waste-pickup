@@ -14,8 +14,10 @@ export default async function proxy(request: NextRequest) {
   );
 
   if (isProtected && !session) {
-    return NextResponse.redirect(new URL("/api/auth/signin", request.url));
-    //return NextResponse.redirect(new URL("/", request.url));
+    const callbackUrl = encodeURIComponent(pathname);
+    return NextResponse.redirect(
+      new URL(`/api/auth/signin?callbackUrl=${callbackUrl}`, request.url)
+    );
   }
 
   return NextResponse.next();
